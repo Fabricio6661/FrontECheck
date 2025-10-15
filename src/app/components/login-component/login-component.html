@@ -6,39 +6,44 @@
   <form (ngSubmit)="login()" #loginForm="ngForm" novalidate>
     <div class="mb-3">
       <label for="email" class="form-label">Email</label>
-      <input id="email" name="email" type="email" class="form-control"
-        [(ngModel)]="novoEmail" required email />
+      <input
+        id="email"
+        name="email"
+        type="email"
+        class="form-control"
+        [(ngModel)]="novoEmail"
+        #email="ngModel"
+        required
+        email
+      />
+      <div *ngIf="email.invalid && email.touched" class="text-danger">
+        <small *ngIf="email.errors?.required">Email é obrigatório.</small>
+        <small *ngIf="email.errors?.email">Formato de email inválido.</small>
+      </div>
     </div>
 
     <div class="mb-3">
       <label for="senha" class="form-label">Senha</label>
-      <input id="senha" name="senha" type="password" class="form-control"
-        [(ngModel)]="novaSenha" required minlength="6" />
+      <input
+        id="senha"
+        name="senha"
+        type="password"
+        class="form-control"
+        [(ngModel)]="novaSenha"
+        #senha="ngModel"
+        required
+        minlength="6"
+      />
+      <div *ngIf="senha.invalid && senha.touched" class="text-danger">
+        <small *ngIf="senha.errors?.required">Senha é obrigatória.</small>
+        <small *ngIf="senha.errors?.minlength">
+          A senha deve ter no mínimo 6 caracteres.
+        </small>
+      </div>
     </div>
 
-    <button type="submit" class="btn btn-primary" [disabled]="loading">
+    <button type="submit" class="btn btn-primary"  [disabled]="loginForm.invalid || loading">
       {{ loading ? 'Entrando...' : 'Entrar' }}
     </button>
   </form>
 </div>
-
-<!-- <h2 class="mb-3">Produtos</h2>
-
- 
-<div class="row g-2 align-items-center mb-3">
-  <div class="col-sm-6 col-md-4"> 
-    <input class="form-control"
-           [(ngModel)]="novoEmail"
-           placeholder="Email">
-  </div>
-  <div class="col-sm-6 col-md-4"> 
-    <input class="form-control"
-           [(ngModel)]="novaSenha"
-           placeholder="Senha">
-  </div>
-   <div class="col-auto">
-     <button class="btn btn-primary">Adicionar</button>
-  </div>
-</div> -->
-
-
