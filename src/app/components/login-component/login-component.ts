@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { LoginService } from '../../services/login-service';
+import { CommonModule } from '@angular/common';
+import { LoginModel } from '../../models/login-model';
 
 @Component({
   selector: 'app-login-component',
   standalone: true,
-  imports: [FormsModule, RouterModule],
+  imports: [FormsModule, RouterModule, CommonModule],
   templateUrl: './login-component.html',
   styleUrls: ['./login-component.css']
 })
@@ -15,7 +18,7 @@ export class LoginComponent {
   erro: string = '';
   loading = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private loginService: LoginService) {}
 
   login() {
     this.erro = '';
@@ -32,14 +35,23 @@ export class LoginComponent {
 
     this.loading = true;
 
-    // Simulação de validação (substitua pela lógica real)
-    setTimeout(() => {
-      this.loading = false;
-      if (this.novoEmail === 'user@example.com' && this.novaSenha === '123456') {
-        this.router.navigate(['/home']);
-      } else {
-        this.erro = 'Email ou senha inválidos';
-      }
-    }, 1500);
+    const credenciais: LoginModel = {
+      email: this.novoEmail,
+      senha: this.novaSenha
+    };
+
+    this.loginService.autenticar(credenciais)
+      .subscribe({
+        next: (resposta) => {
+          console.log('Login bem-sucedido!', resposta); 
+          this.loading = false;
+          this.router.navigate(['/home']);
+        },
+        error: (erroApi) => {
+          console.error('Erro no login:', erroApi);
+          this.loading = false;
+          this.erro = erroApi.error?.message || erroApi.message || 'Email ou senha inválidos';
+        }
+      });
   }
 }
