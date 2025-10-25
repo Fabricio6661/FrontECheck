@@ -17,8 +17,8 @@
         email
       />
       <div *ngIf="email.invalid && email.touched" class="text-danger">
-        <small *ngIf="email.errors?.required">Email é obrigatório.</small>
-        <small *ngIf="email.errors?.email">Formato de email inválido.</small>
+        <small *ngIf="email.errors?.['required']">Email é obrigatório.</small>
+        <small *ngIf="email.errors?.['email']">Formato de email inválido.</small>
       </div>
     </div>
 
@@ -35,10 +35,9 @@
         minlength="6"
       />
       <div *ngIf="senha.invalid && senha.touched" class="text-danger">
-        <small *ngIf="senha.errors?.required">Senha é obrigatória.</small>
-        <small *ngIf="senha.errors?.minlength">
+        <small *ngIf="senha.errors?.['required']">Senha é obrigatória.</small>
+        <small *ngIf="senha.errors?.['minlength']"></small>
           A senha deve ter no mínimo 6 caracteres.
-        </small>
       </div>
     </div>
 
