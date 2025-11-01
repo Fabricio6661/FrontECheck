@@ -1,75 +1,90 @@
-<div class="usuario-container">
+<div class="cadastro-wrapper">
+  <div class="cadastro-card">
     <h2>Cadastro de Usuário</h2>
-  
+    <p class="subtitle">Preencha os dados abaixo para registrar um novo usuário</p>
+
     <div *ngIf="erro" class="alert alert-danger">{{ erro }}</div>
     <div *ngIf="sucesso" class="alert alert-success">{{ sucesso }}</div>
-  
+
     <form (ngSubmit)="cadastrar()" #usuarioForm="ngForm" novalidate>
       <!-- Nome -->
-      <div class="mb-3">
-        <label for="nome" class="form-label">Nome</label>
+      <div class="form-group">
+        <label for="nome">Nome</label>
         <input
           name="nome"
           type="text"
-          class="form-control"
           [(ngModel)]="novoUsuario.nome"
           #nome="ngModel"
           required
           minlength="3"
+          placeholder="Digite o nome completo"
         />
         <div *ngIf="nome.invalid && nome.touched" class="text-danger">
           <small *ngIf="nome.errors?.['required']">Nome é obrigatório.</small>
-          <small *ngIf="nome.errors?.['minlength']">
-            O nome deve ter no mínimo 3 caracteres.
-          </small>
+          <small *ngIf="nome.errors?.['minlength']">O nome deve ter no mínimo 3 caracteres.</small>
         </div>
       </div>
-  
+
       <!-- Email -->
-      <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
+      <div class="form-group">
+        <label for="email">Email</label>
         <input
           name="email"
           type="email"
-          class="form-control"
           [(ngModel)]="novoUsuario.email"
           #email="ngModel"
           required
           email
+          placeholder="exemplo@email.com"
         />
         <div *ngIf="email.invalid && email.touched" class="text-danger">
           <small *ngIf="email.errors?.['required']">Email é obrigatório.</small>
           <small *ngIf="email.errors?.['email']">Formato de email inválido.</small>
         </div>
       </div>
-  
+
       <!-- Senha -->
-      <div class="mb-3">
-        <label for="senha" class="form-label">Senha</label>
-        <input id="senha" name="senha" type="password" class="form-control" [(ngModel)]="novoUsuario.senha" #senha="ngModel" required minlength="6"/>
+      <div class="form-group">
+        <label for="senha">Senha</label>
+        <input
+          id="senha"
+          name="senha"
+          type="password"
+          [(ngModel)]="novoUsuario.senha"
+          #senha="ngModel"
+          required
+          minlength="6"
+          placeholder="Digite uma senha segura"
+        />
         <div *ngIf="senha.invalid && senha.touched" class="text-danger">
           <small *ngIf="senha.errors?.['required']">Senha é obrigatória.</small>
           <small *ngIf="senha.errors?.['minlength']">A senha deve ter no mínimo 6 caracteres.</small>
         </div>
       </div>
-  
+
       <!-- Tipo -->
-      <div class="mb-3">
-        <label for="tipo" class="form-label">Tipo de Usuário</label>
-        <select id="tipo" name="tipo" class="form-select" [(ngModel)]="novoUsuario.tipo" #tipo="ngModel"required>
+      <div class="form-group">
+        <label for="tipo">Tipo de Usuário</label>
+        <select
+          id="tipo"
+          name="tipo"
+          [(ngModel)]="novoUsuario.tipo"
+          #tipo="ngModel"
+          required
+        >
           <option value="" disabled selected>Selecione um tipo</option>
-          <option value="cliente">Gerente</option>
+          <option value="gerente">Gerente</option>
           <option value="colaborador">Colaborador</option>
         </select>
-        <div *ngIf="tipo.invalid && tipo.touched" class="text-danger"> <small>Tipo de usuário é obrigatório.</small>
+        <div *ngIf="tipo.invalid && tipo.touched" class="text-danger">
+          <small>Tipo de usuário é obrigatório.</small>
         </div>
       </div>
-  
+
       <!-- Botão -->
-      <button
-        type="submit"
-        class="btn btn-success"
-        [disabled]="usuarioForm.invalid || loading"> {{ loading ? 'Cadastrando...' : 'Cadastrar' }}</button>
+      <button type="submit" [disabled]="usuarioForm.invalid || loading">
+        {{ loading ? 'Cadastrando...' : 'Cadastrar' }}
+      </button>
     </form>
   </div>
-  
+</div>
