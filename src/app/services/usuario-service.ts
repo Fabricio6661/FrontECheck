@@ -15,4 +15,9 @@ export class UsuarioService {
       const loginUrl = `${this.apiUrl}/usuarios`;
       return this.http.post<any>(loginUrl, credenciais);
   }
+
+  salvar(usuario: any): Observable<UsuarioModel> {
+    const salvarUrl = `${this.apiUrl}/usuario/salvar`;
+    return this.http.post<UsuarioModel>(salvarUrl, usuario);
+  }
 }

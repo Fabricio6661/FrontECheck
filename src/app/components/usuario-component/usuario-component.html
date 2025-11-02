@@ -73,11 +73,11 @@
           required
         >
           <option value="" disabled selected>Selecione um tipo</option>
-          <option value="gerente">Gerente</option>
-          <option value="colaborador">Colaborador</option>
+          <option value="0">Atendente</option>
+          <option value="1">Gerente</option>
         </select>
         <div *ngIf="tipo.invalid && tipo.touched" class="text-danger">
-          <small>Tipo de usuário é obrigatório.</small>
+          <small *ngIf="tipo.errors?.['required']">Tipo de usuário é obrigatório.</small>
         </div>
       </div>
 

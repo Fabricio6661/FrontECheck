@@ -1,16 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { UsuarioModel } from '../../models/usuario-model'; 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { UsuarioService } from '../../services/usuario-service';
 
 @Component({
   selector: 'app-usuario',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, FormsModule],
+  imports: [RouterOutlet, RouterLink, FormsModule, CommonModule],
   templateUrl: './usuario-component.html',
   styleUrls: ['./usuario-component.css']
 })
 export class UsuarioComponent {
+
+  @ViewChild('usuarioForm') usuarioForm!: NgForm;
+
   novoUsuario: UsuarioModel = {
     id: '',
     nome: '',
@@ -18,6 +23,8 @@ export class UsuarioComponent {
     senha: '',
     tipo: ''
   };
+
+  constructor(private usuarioService: UsuarioService) {}
 
   erro: string = '';
   sucesso: string = '';
@@ -34,10 +41,27 @@ export class UsuarioComponent {
 
     this.loading = true;
 
-    // Simula chamada ao backend
-    setTimeout(() => {
-      this.loading = false;
-      this.sucesso = 'Usuário cadastrado com sucesso!';
-      this.novoUsuario = { id: '', nome: '', email: '', senha: '', tipo: '' };}, 1500);
+    const dadosParaSalvar = {
+      nome: this.novoUsuario.nome,
+      email: this.novoUsuario.email,
+      senha: this.novoUsuario.senha,
+      tipo: parseInt(this.novoUsuario.tipo) 
+    };
+
+    this.usuarioService.salvar(dadosParaSalvar)
+      .subscribe({
+        next: (usuarioSalvo) => {
+          this.loading = false;
+          this.sucesso = `Usuário "${usuarioSalvo.nome}" cadastrado com sucesso!`;
+          this.usuarioForm.resetForm();
+          this.novoUsuario = { id: '', nome: '', email: '', senha: '', tipo: '' };
+        },
+
+        error: (erroApi) => {
+          this.loading = false;
+          console.error('Erro ao cadastrar:', erroApi);
+          this.erro = erroApi.error?.message || erroApi.message || 'Erro desconhecido ao cadastrar usuário.';
+        }
+      });
   }
 }
