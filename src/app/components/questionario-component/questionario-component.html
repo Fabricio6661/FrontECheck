@@ -3,7 +3,6 @@
     <h2>Editor de Formulário de Satisfação</h2>
 
     <form (ngSubmit)="adicionarPergunta()" #perguntaForm="ngForm" novalidate>
-      <div class="row">
         <div class="form-group">
           <label for="pergunta">Pergunta</label>
           <input
@@ -15,7 +14,6 @@
             required
             #pergunta="ngModel"
           />
-        </div>
 
         <div class="form-group">
           <label for="tipo">Tipo de pergunta</label>
@@ -29,20 +27,10 @@
             <option value="estrelas">Estrelas</option>
             <option value="texto">Texto</option>
             <option value="simnao">Sim / Não</option>
-            <option value="nota">Nota (1 a 5)</option>
+            <option value="nota">Nota (1 a 10)</option>
+            <option value="multiplaEscolha"> Multipla Escolha</option>
           </select>
         </div>
-      </div>
-
-      <div class="form-group">
-        <label for="ajuda">Texto de ajuda (opcional)</label>
-        <input
-          type="text"
-          id="ajuda"
-          name="ajuda"
-          [(ngModel)]="novaPergunta.ajuda"
-          placeholder="Texto de ajuda (opcional)"
-        />
       </div>
 
       <button type="submit" [disabled]="!perguntaForm.valid" class="btn-adicionar">

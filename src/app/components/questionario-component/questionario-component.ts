@@ -18,7 +18,7 @@ export class QuestionarioComponent {
     { texto: 'Você recomendaria este hotel a alguém?', tipo: 'simnao' }
   ];
 
-  novaPergunta = { texto: '', tipo: 'estrelas', ajuda: '' };
+  novaPergunta = { texto: '', tipo: 'estrelas' };
   editandoIndex: number | null = null;
 
   adicionarPergunta() {
@@ -29,7 +29,7 @@ export class QuestionarioComponent {
       this.perguntas.push({ ...this.novaPergunta });
     }
 
-    this.novaPergunta = { texto: '', tipo: 'estrelas', ajuda: '' };
+    this.novaPergunta = { texto: '', tipo: 'estrelas' };
   }
 
   editarPergunta(index: number) {
