@@ -2,7 +2,7 @@
   <div class="questionario-card">
     
     <div *ngIf="mensagem" class="alert" 
-         [ngClass]="{'alert-success': formularioCriadoId, 'alert-danger': !formularioCriadoId}">
+         [ngClass]="{'alert-success': formularioCriadoId, 'alert-danger': !formularioCriadoId && mensagem}">
       {{ mensagem }}
     </div>
 
@@ -49,6 +49,7 @@
     <div *ngIf="formularioCriadoId" class="area-perguntas">
       <hr>
       <h2>2. Adicionar Perguntas</h2>
+      <p>Formulário: <strong>{{ novoFormulario.nome }}</strong></p>
 
       <form (ngSubmit)="adicionarPergunta()" #perguntaForm="ngForm" novalidate>
         <div class="form-group">
@@ -88,21 +89,55 @@
 
       <h3 class="lista-titulo">Perguntas Salvas</h3>
       <ul class="lista-perguntas">
-        <li *ngFor="let p of perguntasDoFormulario; let i = index">
-          <div class="texto">
-            <strong>{{ p.descricao }}</strong>
-            <small> — (Tipo: {{ p.tipo }})</small>
+        
+        <li *ngFor="let p of perguntasDoFormulario; let i = index" class="pergunta-item">
+          
+          <div class="pergunta-header">
+            <div class="texto">
+              <strong>{{ p.descricao }}</strong>
+              <small> — (Tipo: {{ p.tipo }})</small>
+            </div>
+            <div class="acoes">
+              <button (click)="removerPergunta(p.id)" class="btn-acao excluir" title="Excluir">
+                🗑️
+              </button>
+            </div>
           </div>
-          <div class="acoes">
-            <button (click)="removerPergunta(p.id)" class="btn-acao excluir" title="Excluir">
-              🗑️
-            </button>
-          </div>
-        </li>
-        <li *ngIf="perguntasDoFormulario.length === 0" class="lista-vazia">
+
+          <div *ngIf="p.tipo === 'MULTIPLA_ESCOLHA'" class="area-opcoes">
+            
+            <ul class="lista-opcoes-interna">
+              
+              <li *ngFor="let op of p.opcoesRespostas">
+                <span>{{ op.opcao }}</span>
+                <button (click)="removerOpcao(op.id, p.id)" class="btn-acao-opcao excluir" title="Excluir Opção">
+                  ❌
+                </button>
+              </li>
+              
+              <li *ngIf="p.opcoesRespostas.length === 0" class="lista-vazia-interna">
+                <small>Nenhuma opção adicionada.</small>
+              </li>
+
+              <li> 
+                <form (ngSubmit)="adicionarOpcao(p.id)" #opcaoForm="ngForm">
+                  <div class="form-add-opcao">
+                    <input
+                      type="text"
+                      class="form-control-opcao"
+                      placeholder="Digite o texto da opção (ex: Sim)"
+                      [name]="'opcao-' + p.id" 
+                      [(ngModel)]="novaOpcao[p.id]"
+                      required 
+                    />
+                    <button type="submit" class="btn-adicionar-opcao" [disabled]="!opcaoForm.valid">
+                      +
+                    </button>
+                  </div>
+                </form>
+              </li> </ul>
+          </div> </li> <li *ngIf="perguntasDoFormulario.length === 0" class="lista-vazia">
           Nenhuma pergunta adicionada a este formulário ainda.
         </li>
-      </ul>
-
-    </div> </div>
+      </ul> </div> </div>
 </div>

@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormularioDto, Pergunta, PerguntaDto, QuestionarioService } from '../../services/questionario-service';
+import { FormularioDto, OpcaoRespostaDto, Pergunta, PerguntaDto, QuestionarioService } from '../../services/questionario-service';
 import { Unidade, UnidadeService } from '../../services/unidade-service';
 
 
@@ -13,7 +13,7 @@ import { Unidade, UnidadeService } from '../../services/unidade-service';
   templateUrl: './questionario-component.html',
   styleUrls: ['./questionario-component.css']
 })
-export class QuestionarioComponent{
+export class QuestionarioComponent implements OnInit {
   unidades: Unidade[] = [];
   novoFormulario = { nome: '', unidadeId: null as number | null, status: true };
   formularioCriadoId: number | null = null;
@@ -26,6 +26,7 @@ export class QuestionarioComponent{
     tipo: 'ESTRELAS',
     formularioId: 0};
   editandoIndex: number | null = null;
+  novaOpcao: { [key: number]: string } = {};
 
   constructor(
     private questionarioService: QuestionarioService,
@@ -48,6 +49,53 @@ export class QuestionarioComponent{
         console.error('Erro ao carregar unidades', erro);
         this.loading = false;
         this.mensagem = 'Erro ao carregar a lista de hotéis. Tente recarregar a página.';
+      }
+    });
+  }
+
+  adicionarOpcao(perguntaId: number) {
+    const textoOpcao = this.novaOpcao[perguntaId];
+    
+    if (!textoOpcao || textoOpcao.trim() === '') {
+      alert('O texto da opção não pode ser vazio.');
+      return;
+    }
+
+    const dto: OpcaoRespostaDto = {
+      opcao: textoOpcao,
+      perguntaId: perguntaId
+    };
+
+    this.questionarioService.salvarOpcao(dto).subscribe({
+      next: (opcaoSalva) => {
+        const pergunta = this.perguntasDoFormulario.find(p => p.id === perguntaId);
+        if (pergunta) {
+          pergunta.opcoesRespostas.push(opcaoSalva);
+        }
+        this.novaOpcao[perguntaId] = '';
+      },
+      error: (erro) => {
+        console.error('Erro ao salvar opção:', erro);
+        alert('Erro ao salvar opção: ' + (erro.error?.message || erro.message));
+      }
+    });
+  }
+
+  removerOpcao(opcaoId: number, perguntaId: number) {
+    if (!confirm('Tem certeza que deseja apagar esta opção?')) {
+      return;
+    }
+
+    this.questionarioService.deletarOpcao(opcaoId).subscribe({
+      next: () => {
+        const pergunta = this.perguntasDoFormulario.find(p => p.id === perguntaId);
+        if (pergunta) {
+          pergunta.opcoesRespostas = pergunta.opcoesRespostas.filter(op => op.id !== opcaoId);
+        }
+      },
+      error: (erro) => {
+        console.error('Erro ao deletar opção:', erro);
+        alert('Erro ao deletar opção: ' + (erro.error?.message || erro.message));
       }
     });
   }

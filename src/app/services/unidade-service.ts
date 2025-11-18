@@ -18,11 +18,6 @@ export class UnidadeService {
 
   constructor(private http: HttpClient) { }
 
-  autenticar(credenciais: UnidadeModel): Observable<any> { 
-      const loginUrl = `${this.apiUrl}/unidade/salvar`;
-      return this.http.post<any>(loginUrl, credenciais);
-  }
-
   listarTodas(): Observable<Unidade[]> { 
     return this.http.get<Unidade[]>(`${this.apiUrl}/unidade/listar`);
   }

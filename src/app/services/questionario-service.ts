@@ -15,12 +15,22 @@ export interface PerguntaDto {
     unidadeId: number;
   }
 
+  export interface OpcaoRespostaDto {
+    opcao: string;
+    perguntaId: number;
+  }
+
+  export interface OpcaoResposta {
+    id: number;
+    opcao: string;
+  }
+
   export interface Pergunta {
     id: number;
     descricao: string;
     tipo: string;
     // ajuda?: string; // Descomentar quando adicionar 'ajuda' no DTO Java
-    opcoesRespostas: any[];
+    opcoesRespostas: OpcaoResposta[];
   }
 
   @Injectable({
@@ -53,4 +63,13 @@ export interface PerguntaDto {
     salvarFormulario(dadosFormulario: FormularioDto): Observable<any> {
       return this.http.post<any>(`${this.apiUrl}/formulario/salvar`, dadosFormulario);
     }
+
+    salvarOpcao(dadosOpcao: OpcaoRespostaDto): Observable<OpcaoResposta> {
+      return this.http.post<OpcaoResposta>(`${this.apiUrl}/opcao/salvar`, dadosOpcao);
+    }
+
+    deletarOpcao(id: number): Observable<any> {
+      return this.http.delete<any>(`${this.apiUrl}/opcao/apagar/${id}`);
+    }
+    
   }
