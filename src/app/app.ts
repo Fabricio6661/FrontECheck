@@ -1,6 +1,7 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import{toSignal} from '@angular/core/rxjs-interop'
 import { NavigationEnd, Router, RouterLink, RouterOutlet, RouterLinkActive } from '@angular/router';
-import { filter } from 'rxjs';
+import { filter, map, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,21 +10,27 @@ import { filter } from 'rxjs';
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('frontECheck');
+  private router = inject(Router);
+  //url reativa: atualiza a cada navegação
 
-  // // 🔥 Criamos um signal que guarda a rota atual
-  // currentRoute = signal<string>('');
+  urlSig = toSignal(
+    //escuta os eventos do (navegações)
+    this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd),
 
-  // constructor(private router: Router) {
-  //   // Atualiza o signal sempre que a navegação termina
-  //   this.router.events
-  //     .pipe(filter(event => event instanceof NavigationEnd))
-  //     .subscribe((event: NavigationEnd) => {
-  //       this.currentRoute.set(event.urlAfterRedirects);
-  //     });
-  // }
+      startWith(null),
 
-  // // 🔥 Computed signal: retorna true se não for login
-  // mostrarNavbar = computed(() => this.currentRoute() !== '/login');
+      map(()=> (this.router.url || '').split('?')[0].split('#')[0])
+
+    ),
+
+      {initialValue: (typeof location !== 'undefined' ? location.pathname: '/')}
+  );
+
+  isAuthPage = computed(()=> {
+    const url = this.urlSig();
+
+    return url?.startsWith('/login') || url?.startsWith('/recuperarsenha');
+  })
   
 }

@@ -8,7 +8,7 @@ import { UsuarioService } from '../../services/usuario-service';
 @Component({
   selector: 'app-usuario',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './usuario-component.html',
   styleUrls: ['./usuario-component.css']
 })

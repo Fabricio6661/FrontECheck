@@ -1,0 +1,27 @@
+.recover-container {
+    height: 100vh;
+    background: #f5f8ff; /* fundo suave */
+  }
+  
+  .recover-card {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 12px;
+  }
+  
+  .input-group-text {
+    background-color: #eef3ff;
+    border: none;
+    font-size: 20px;
+  }
+  
+  .form-control {
+    border-left: none;
+  }
+  
+  .btn-primary {
+    padding: 0.7rem;
+    font-size: 1rem;
+    border-radius: 8px;
+  }
+  

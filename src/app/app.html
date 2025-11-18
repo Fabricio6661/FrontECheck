@@ -1,41 +1,57 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <div class="container">
-    <a class="navbar-brand" routerLink="/">E-Check</a>
+@if (!isAuthPage()) {
 
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Alternar navegação"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
+  <div class="d-flex">
+    
+    <!-- Sidebar -->
+    <div class="bg-primary text-white p-3 vh-100 d-flex flex-column" style="width: 220px;">
+      
+      <h4 class="text-center fw-bold mb-4">
+        <a routerLink="/home" class="text-white text-decoration-none">E-Check</a>
+      </h4>
+      
+  
+      <ul class="nav nav-pills flex-column mb-auto">
+  
         <li class="nav-item">
-          <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
+          <a routerLink="/home" routerLinkActive="active"
+             class="nav-link text-white">
+             Home
+          </a>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link" routerLink="/usuarios" routerLinkActive="active">Usuários</a>
-        </li> -->
+  
         <li class="nav-item">
-          <a class="nav-link" routerLink="/listarUsuarios" routerLinkActive="active">Usuários</a>
+          <a routerLink="/usuarios" routerLinkActive="active"
+             class="nav-link text-white">
+             Usuários
+          </a>
         </li>
+  
         <li class="nav-item">
-          <a class="nav-link" routerLink="/unidade" routerLinkActive="active">Unidade</a>
+          <a routerLink="/unidade" routerLinkActive="active"
+             class="nav-link text-white">
+             Unidade
+          </a>
         </li>
+  
         <li class="nav-item">
-          <a class="nav-link" routerLink="/questionario" routerLinkActive="active">Questionários</a>
+          <a routerLink="/questionario" routerLinkActive="active"
+             class="nav-link text-white">
+             Questionários
+          </a>
         </li>
+  
       </ul>
+  
     </div>
-  </div>
-</nav>
+  
+    <!-- Conteúdo da página -->
+    <div class="flex-grow-1 p-4">
+      <router-outlet></router-outlet>
+    </div>
 
-<div class="container py-4">
-  <router-outlet></router-outlet>
-</div>
+  </div>
+  
+  }
+  <div class="container py">
+    <router-outlet></router-outlet>
+  </div>

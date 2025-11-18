@@ -12,6 +12,7 @@
   color: white;
   text-align: center;
   padding: 2rem;
+  min-height: 100%;
 }
 
 .login-left .logo {
