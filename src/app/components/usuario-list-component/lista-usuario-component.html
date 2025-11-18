@@ -1,0 +1,50 @@
+<div class="lista-wrapper">
+  <div class="lista-card">
+    <h2>Usuários Cadastrados</h2>
+    <p class="subtitle">Gerencie e visualize todos os usuários do sistema</p>
+
+    <div class="action-bar">
+      <a [routerLink]="['/usuarios']" class="btn btn-primary">
+        + Adicionar Novo Usuário
+      </a>
+    </div>
+
+    <div *ngIf="erro" class="alert alert-danger">{{ erro }}</div>
+    <div *ngIf="sucesso" class="alert alert-success">{{ sucesso }}</div>
+
+    <div *ngIf="loading" class="loading-indicator">
+      Carregando usuários...
+    </div> 
+
+    <div *ngIf="!loading && usuarios.length > 0" class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Tipo</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let usuario of usuarios">
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.nome }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ getTipoUsuario(usuario.tipo) }}</td>
+            <td class="acoes">
+              <a [routerLink]="['/editarUsuario', usuario.id]" class="btn-acao btn-editar">Editar</a>
+              <!-- <button (click)="excluirUsuario(usuario.id, usuario.nome)" class="btn-acao btn-excluir">Excluir</button> ainda não foi implementado -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="!loading && usuarios.length === 0" class="no-data">
+      Nenhum usuário cadastrado. Que tal adicionar o primeiro?
+    </div>
+
+  </div>
+</div>

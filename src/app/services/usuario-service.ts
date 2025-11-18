@@ -20,4 +20,9 @@ export class UsuarioService {
     const salvarUrl = `${this.apiUrl}/usuario/salvar`;
     return this.http.post<UsuarioModel>(salvarUrl, usuario);
   }
+
+  listar(): Observable<UsuarioModel[]> {
+    const listarUrl = `${this.apiUrl}/usuarios`;  // Endereço da API para listar usuários
+    return this.http.get<UsuarioModel[]>(listarUrl);
+  }
 }

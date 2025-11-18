@@ -4,6 +4,7 @@ import { UsuarioComponent } from './components/usuario-component/usuario-compone
 import { HomeComponent } from './components/home-component/home-component';
 import { QuestionarioComponent } from './components/questionario-component/questionario-component';
 import { UnidadeComponent } from './components/unidade-component/unidade-component';
+import { ListaUsuarioComponent } from './components/usuario-list-component/lista-usuario-component';
 
 export const routes: Routes = [
     //{ path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -11,5 +12,6 @@ export const routes: Routes = [
     {path: 'usuarios', component: UsuarioComponent},
     {path: 'home', component: HomeComponent},
     {path: 'questionario', component: QuestionarioComponent},
-    {path: 'unidade', component: UnidadeComponent}
+    {path: 'unidade', component: UnidadeComponent},
+    {path: 'listarUsuarios', component: ListaUsuarioComponent}
 ];
