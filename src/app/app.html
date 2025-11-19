@@ -1,57 +1,43 @@
 @if (!isAuthPage()) {
 
   <div class="d-flex">
-    
+
     <!-- Sidebar -->
     <div class="bg-primary text-white p-3 vh-100 d-flex flex-column" style="width: 220px;">
-      
+
       <h4 class="text-center fw-bold mb-4">
         <a routerLink="/home" class="text-white text-decoration-none">E-Check</a>
       </h4>
-      
-  
+
       <ul class="nav nav-pills flex-column mb-auto">
-  
         <li class="nav-item">
-          <a routerLink="/home" routerLinkActive="active"
-             class="nav-link text-white">
-             Home
-          </a>
+          <a routerLink="/home" routerLinkActive="active" class="nav-link text-white">Home</a>
         </li>
-  
         <li class="nav-item">
-          <a routerLink="/usuarios" routerLinkActive="active"
-             class="nav-link text-white">
-             Usuários
-          </a>
+          <a routerLink="/usuarios" routerLinkActive="active" class="nav-link text-white">Usuários</a>
         </li>
-  
         <li class="nav-item">
-          <a routerLink="/unidade" routerLinkActive="active"
-             class="nav-link text-white">
-             Unidade
-          </a>
+          <a routerLink="/unidade" routerLinkActive="active" class="nav-link text-white">Unidade</a>
         </li>
-  
         <li class="nav-item">
-          <a routerLink="/questionario" routerLinkActive="active"
-             class="nav-link text-white">
-             Questionários
-          </a>
+          <a routerLink="/questionario" routerLinkActive="active" class="nav-link text-white">Questionários</a>
         </li>
-  
       </ul>
-  
+
     </div>
-  
+
     <!-- Conteúdo da página -->
     <div class="flex-grow-1 p-4">
       <router-outlet></router-outlet>
     </div>
 
   </div>
-  
-  }
-  <div class="container py">
+
+} @else {
+
+  <!-- Layout da página de Login -->
+  <div class="container py-4">
     <router-outlet></router-outlet>
   </div>
+
+}
