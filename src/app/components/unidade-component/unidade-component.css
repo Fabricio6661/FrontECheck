@@ -1,102 +1,141 @@
+/* 🎨 Layout geral */
 .cadastro-wrapper {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 2rem;
-  background: #f4f6fa;
+  padding: 3rem 1.5rem;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
   min-height: 100vh;
 }
 
+/* 📦 Card principal */
 .cadastro-card {
-  background: #fff;
-  padding: 2.5rem 3rem;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  padding: 3rem 3.5rem;
+  border-radius: 20px;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1050px;
+
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.05),
+    0 12px 28px rgba(0, 0, 0, 0.08);
+
+  animation: fadeIn 0.4s ease-out;
 }
 
+/* 🔤 Títulos */
 h2 {
   text-align: center;
-  margin-bottom: 0.5rem;
-  font-size: 1.8rem;
+  margin-bottom: 0.3rem;
+  font-size: 2rem;
+  font-weight: 700;
   color: #1e293b;
 }
 
 .subtitle {
   text-align: center;
-  color: #6b7280;
-  margin-bottom: 2rem;
-  font-size: 0.95rem;
+  color: #64748b;
+  margin-bottom: 2.5rem;
+  font-size: 1rem;
 }
 
+/* 🧩 Grid do formulário */
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem 3rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.2rem 3rem;
 }
 
+/* 📝 Form groups */
 .form-group {
   display: flex;
   flex-direction: column;
 }
 
+/* 🏷 Labels */
 label {
   font-weight: 600;
-  margin-bottom: 0.4rem;
-  color: #374151;
+  margin-bottom: 0.35rem;
+  color: #334155;
+  font-size: 0.95rem;
 }
 
+/* ✏ Inputs */
 input {
-  padding: 0.7rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
   font-size: 0.95rem;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  background: #f8fafc;
+  transition: all 0.25s ease;
+}
+
+input:hover {
+  border-color: #94a3b8;
 }
 
 input:focus {
   outline: none;
   border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.22);
 }
 
+/* ❗ Mensagens de erro */
 .text-danger {
   color: #dc2626;
   font-size: 0.8rem;
-  margin-top: 0.25rem;
+  margin-top: 0.3rem;
 }
 
+/* 🎯 Botão */
 .form-actions {
   text-align: center;
-  margin-top: 2.5rem;
+  margin-top: 3rem;
 }
 
 button {
-  background-color: #2563eb;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
   color: white;
   border: none;
-  border-radius: 8px;
-  padding: 0.9rem 2.5rem;
-  font-size: 1rem;
+  border-radius: 10px;
+  padding: 1rem 3rem;
+  font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
 }
 
 button:hover {
-  background-color: #1d4ed8;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.32);
 }
 
 button:disabled {
-  background-color: #93c5fd;
+  background: #93c5fd !important;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
-/* 📱 Responsividade */
-@media (max-width: 768px) {
+/* 📱 Responsivo */
+@media (max-width: 850px) {
+  .cadastro-card {
+    padding: 2rem;
+  }
+
   .form-grid {
     grid-template-columns: 1fr;
   }
+
+  h2 {
+    font-size: 1.7rem;
+  }
+}
+
+/* 🌟 Animação sutil */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

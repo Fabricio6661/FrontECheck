@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { UsuarioModel } from '../../models/usuario-model'; 
 import { FormsModule, NgForm } from '@angular/forms';
-import { RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../../services/usuario-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usuario',
@@ -24,7 +24,11 @@ export class UsuarioComponent {
     tipo: ''
   };
 
-  constructor(private usuarioService: UsuarioService) {}
+  // ✅ ADICIONE O Router AQUI
+  constructor(
+    private usuarioService: UsuarioService,
+    private router: Router
+  ) {}
 
   erro: string = '';
   sucesso: string = '';
@@ -45,7 +49,7 @@ export class UsuarioComponent {
       nome: this.novoUsuario.nome,
       email: this.novoUsuario.email,
       senha: this.novoUsuario.senha,
-      tipo: parseInt(this.novoUsuario.tipo) 
+      tipo: parseInt(this.novoUsuario.tipo)
     };
 
     this.usuarioService.salvar(dadosParaSalvar)
@@ -53,6 +57,9 @@ export class UsuarioComponent {
         next: (usuarioSalvo) => {
           this.loading = false;
           this.sucesso = `Usuário "${usuarioSalvo.nome}" cadastrado com sucesso!`;
+
+          this.router.navigate(['/listarUsuarios']);
+
           this.usuarioForm.resetForm();
           this.novoUsuario = { id: '', nome: '', email: '', senha: '', tipo: '' };
         },

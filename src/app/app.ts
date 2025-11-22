@@ -30,7 +30,7 @@ export class App {
   isAuthPage = computed(()=> {
     const url = this.urlSig();
 
-    return url?.startsWith('/login') || url?.startsWith('/recuperarsenha');
+    return url?.startsWith('/login') || url?.startsWith('/recuperarsenha') || url?.startsWith('/responderform');
   })
   
 }

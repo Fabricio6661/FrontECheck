@@ -1,143 +1,208 @@
-<div class="questionario-wrapper">
-  <div class="questionario-card">
-    
-    <div *ngIf="mensagem" class="alert" 
-         [ngClass]="{'alert-success': formularioCriadoId, 'alert-danger': !formularioCriadoId && mensagem}">
-      {{ mensagem }}
-    </div>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card shadow-lg p-4 rounded-4">
 
-    <div *ngIf="!formularioCriadoId">
-      <h2>Criar Novo Formulário</h2>
-      
-      <div class="form-group">
-        <label for="form-nome">Nome do Formulário</label>
-        <input
-          type="text"
-          id="form-nome"
-          name="form-nome"
-          class="form-control" 
-          [(ngModel)]="novoFormulario.nome"
-          placeholder="Digite o nome do formulário"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="form-unidade">Unidade (Hotel)</label>
-        <select
-          id="form-unidade"
-          name="form-unidade"
-          class="form-control" 
-          [(ngModel)]="novoFormulario.unidadeId"
-        >
-          <option [ngValue]="null" disabled>
-            {{ loading ? 'Carregando unidades...' : 'Selecione uma unidade' }}
-          </option>
-          <option *ngFor="let unidade of unidades" [value]="unidade.id">
-            {{ unidade.nome }}
-          </option>
-        </select>
-      </div>
-
-      <button 
-        (click)="criarFormulario()" 
-        class="btn-salvar"
-        [disabled]="loading || !novoFormulario.nome || !novoFormulario.unidadeId">
-        {{ loading ? 'Salvando...' : 'Salvar e Adicionar Perguntas' }}
-      </button>
-    </div>
-
-    <div *ngIf="formularioCriadoId" class="area-perguntas">
-      <hr>
-      <h2>2. Adicionar Perguntas</h2>
-      <p>Formulário: <strong>{{ novoFormulario.nome }}</strong></p>
-
-      <form (ngSubmit)="adicionarPergunta()" #perguntaForm="ngForm" novalidate>
-        <div class="form-group">
-          <label for="pergunta">Texto da Pergunta</label>
-          <input
-            type="text"
-            id="pergunta"
-            name="pergunta"
-            class="form-control" 
-            [(ngModel)]="novaPergunta.descricao"
-            placeholder="Digite a pergunta"
-            required
-            #pergunta="ngModel"
-          />
+        <!-- Mensagem -->
+        <div *ngIf="mensagem"
+             class="alert text-center"
+             [ngClass]="{
+               'alert-primary': formularioCriadoId,
+               'alert-danger': !formularioCriadoId
+             }">
+          {{ mensagem }}
         </div>
 
-        <div class="form-group">
-          <label for="tipo">Tipo de pergunta</label>
-          <select
-            id="tipo"
-            name="tipo"
-            class="form-control" 
-            [(ngModel)]="novaPergunta.tipo"
-            required
-            #tipo="ngModel"
-          >
-            <option value="ESTRELAS">Estrelas</option>
-            <option value="TEXTO_ABERTO">Texto Aberto</option>
-            <option value="MULTIPLA_ESCOLHA">Múltipla Escolha</option>
-          </select>
-        </div>
+        <div *ngIf="!formularioCriadoId">
 
-        <button type="submit" [disabled]="!perguntaForm.valid" class="btn-adicionar">
-          + Adicionar nova pergunta
-        </button>
-      </form>
+          <h2 class="text-center fw-bold mb-1">Criar Novo Formulário</h2>
+          <p class="text-center text-muted mb-4">
+            Preencha abaixo para criar um novo formulário
+          </p>
 
-      <h3 class="lista-titulo">Perguntas Salvas</h3>
-      <ul class="lista-perguntas">
-        
-        <li *ngFor="let p of perguntasDoFormulario; let i = index" class="pergunta-item">
-          
-          <div class="pergunta-header">
-            <div class="texto">
-              <strong>{{ p.descricao }}</strong>
-              <small> — (Tipo: {{ p.tipo }})</small>
-            </div>
-            <div class="acoes">
-              <button (click)="removerPergunta(p.id)" class="btn-acao excluir" title="Excluir">
-                🗑️
-              </button>
-            </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Nome do Formulário</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="novoFormulario.nome"
+              placeholder="Digite o nome do formulário"
+            />
           </div>
 
-          <div *ngIf="p.tipo === 'MULTIPLA_ESCOLHA'" class="area-opcoes">
-            
-            <ul class="lista-opcoes-interna">
-              
-              <li *ngFor="let op of p.opcoesRespostas">
-                <span>{{ op.opcao }}</span>
-                <button (click)="removerOpcao(op.id, p.id)" class="btn-acao-opcao excluir" title="Excluir Opção">
-                  ❌
-                </button>
-              </li>
-              
-              <li *ngIf="p.opcoesRespostas.length === 0" class="lista-vazia-interna">
-                <small>Nenhuma opção adicionada.</small>
-              </li>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Unidade (Hotel)</label>
+            <select
+              class="form-select"
+              [(ngModel)]="novoFormulario.unidadeId"
+            >
+              <option [ngValue]="null" disabled>
+                {{ loading ? 'Carregando unidades...' : 'Selecione uma unidade' }}
+              </option>
+              <option
+                *ngFor="let unidade of unidades"
+                [value]="unidade.id"
+              >
+                {{ unidade.nome }}
+              </option>
+            </select>
+          </div>
 
-              <li> 
+          <div class="text-center mt-4">
+            <button
+              class="btn btn-primary px-5 py-2 fw-semibold"
+              (click)="criarFormulario()"
+              [disabled]="loading || !novoFormulario.nome || !novoFormulario.unidadeId"
+            >
+              {{ loading ? 'Salvando...' : 'Salvar e Avançar' }}
+            </button>
+          </div>
+
+        </div>
+
+        <div *ngIf="formularioCriadoId">
+
+          <h2 class="text-center fw-bold mb-3">Adicionar Perguntas</h2>
+          <p class="text-center text-muted mb-4">
+            Formulário: <strong>{{ novoFormulario.nome }}</strong>
+          </p>
+
+          <!-- Form de nova pergunta -->
+          <form (ngSubmit)="adicionarPergunta()" #perguntaForm="ngForm" novalidate>
+            <div class="row g-4">
+
+              <div class="col-md-12">
+                <label class="form-label fw-semibold">Pergunta</label>
+
+                <!-- CAMPO AMPLIADO -->
+                <textarea
+                  name="pergunta"
+                  class="form-control"
+                  [(ngModel)]="novaPergunta.descricao"
+                  placeholder="Digite o texto da pergunta"
+                  rows="4"
+                  required
+                  #pergunta="ngModel"
+                ></textarea>
+              </div>
+
+              <div class="col-md-5">
+                <label class="form-label fw-semibold">Tipo</label>
+                <select
+                  name="tipo"
+                  class="form-select"
+                  [(ngModel)]="novaPergunta.tipo"
+                  required
+                  #tipo="ngModel"
+                >
+                  <option value="ESTRELAS">Estrelas</option>
+                  <option value="TEXTO_ABERTO">Texto Aberto</option>
+                  <option value="MULTIPLA_ESCOLHA">Múltipla Escolha</option>
+                </select>
+              </div>
+
+            </div>
+
+            <div class="text-center mt-4">
+              <button
+                type="submit"
+                class="btn btn-primary px-4 fw-semibold"
+                [disabled]="!perguntaForm.valid"
+              >
+                + Adicionar Pergunta
+              </button>
+            </div>
+
+          </form>
+
+          <hr class="my-4">
+
+          <!-- Lista de Perguntas -->
+          <h4 class="fw-bold mb-3">Perguntas do Formulário</h4>
+
+          <ul class="list-group">
+
+            <li
+              *ngFor="let p of perguntasDoFormulario; let i = index"
+              class="list-group-item d-flex flex-column gap-2"
+            >
+
+              <!-- Cabeçalho -->
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>{{ p.descricao }}</strong>
+                  <small class="text-muted"> — Tipo: {{ p.tipo }}</small>
+                </div>
+
+                <button
+                  class="btn btn-sm btn-outline-danger"
+                  (click)="removerPergunta(p.id)"
+                  title="Excluir"
+                >
+                  Excluir
+                </button>
+              </div>
+
+              <!-- Múltipla Escolha -->
+              <div *ngIf="p.tipo === 'MULTIPLA_ESCOLHA'">
+
+                <ul class="list-group mb-2">
+
+                  <li
+                    *ngFor="let op of p.opcoesRespostas"
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    {{ op.opcao }}
+                    <button
+                      class="btn btn-sm btn-outline-danger"
+                      (click)="removerOpcao(op.id, p.id)"
+                    >
+                      ❌
+                    </button>
+                  </li>
+
+                  <li
+                    *ngIf="p.opcoesRespostas.length === 0"
+                    class="list-group-item text-center text-muted"
+                  >
+                    Nenhuma opção adicionada.
+                  </li>
+
+                </ul>
+
+                <!-- Adicionar opção -->
                 <form (ngSubmit)="adicionarOpcao(p.id)" #opcaoForm="ngForm">
-                  <div class="form-add-opcao">
+                  <div class="input-group">
                     <input
                       type="text"
-                      class="form-control-opcao"
-                      placeholder="Digite o texto da opção (ex: Sim)"
-                      [name]="'opcao-' + p.id" 
+                      class="form-control"
+                      placeholder="Nova opção"
+                      [name]="'opcao-' + p.id"
                       [(ngModel)]="novaOpcao[p.id]"
-                      required 
+                      required
                     />
-                    <button type="submit" class="btn-adicionar-opcao" [disabled]="!opcaoForm.valid">
+                    <button class="btn btn-primary" [disabled]="!opcaoForm.valid">
                       +
                     </button>
                   </div>
                 </form>
-              </li> </ul>
-          </div> </li> <li *ngIf="perguntasDoFormulario.length === 0" class="lista-vazia">
-          Nenhuma pergunta adicionada a este formulário ainda.
-        </li>
-      </ul> </div> </div>
+
+              </div>
+
+            </li>
+
+            <li
+              *ngIf="perguntasDoFormulario.length === 0"
+              class="list-group-item text-center text-muted"
+            >
+              Nenhuma pergunta adicionada ainda.
+            </li>
+
+          </ul>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
 </div>

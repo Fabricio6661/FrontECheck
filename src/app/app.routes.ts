@@ -6,6 +6,7 @@ import { QuestionarioComponent } from './components/questionario-component/quest
 import { UnidadeComponent } from './components/unidade-component/unidade-component';
 import { ListaUsuarioComponent } from './components/usuario-list-component/lista-usuario-component';
 import { RecuperarSenhaComponent } from './components/recuperar-senha-component/recuperar-senha-component';
+import { ResponderFormularioComponent } from './components/responder-form-component/responder-form-component';
 
 
 export const routes: Routes = [
@@ -16,6 +17,7 @@ export const routes: Routes = [
     {path: 'questionario', component: QuestionarioComponent},
     {path: 'unidade', component: UnidadeComponent},
     {path: 'listarUsuarios', component: ListaUsuarioComponent},
-    {path: 'recuperarsenha', component: RecuperarSenhaComponent}
+    {path: 'recuperarsenha', component: RecuperarSenhaComponent},
+    {path: 'responderform/:id', component: ResponderFormularioComponent}
 
 ];
