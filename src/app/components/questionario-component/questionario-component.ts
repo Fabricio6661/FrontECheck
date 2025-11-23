@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormularioDto, OpcaoRespostaDto, Pergunta, PerguntaDto, QuestionarioService } from '../../services/questionario-service';
 import { Unidade, UnidadeService } from '../../services/unidade-service';
@@ -30,7 +30,8 @@ export class QuestionarioComponent implements OnInit {
 
   constructor(
     private questionarioService: QuestionarioService,
-    private unidadeService: UnidadeService
+    private unidadeService: UnidadeService,
+    private router: Router
   ) {}
 
 
@@ -55,7 +56,7 @@ export class QuestionarioComponent implements OnInit {
 
   adicionarOpcao(perguntaId: number) {
     const textoOpcao = this.novaOpcao[perguntaId];
-    
+
     if (!textoOpcao || textoOpcao.trim() === '') {
       alert('O texto da opção não pode ser vazio.');
       return;
@@ -66,11 +67,21 @@ export class QuestionarioComponent implements OnInit {
       perguntaId: perguntaId
     };
 
+    this.loading = true;
+
     this.questionarioService.salvarOpcao(dto).subscribe({
       next: (opcaoSalva) => {
+        this.loading = false;
+
         const pergunta = this.perguntasDoFormulario.find(p => p.id === perguntaId);
         if (pergunta) {
+
+          if (!pergunta.opcoesRespostas) {
+            pergunta.opcoesRespostas = [];
+          }
+
           pergunta.opcoesRespostas.push(opcaoSalva);
+          console.log('Opção salva com ID:', opcaoSalva.id);
         }
         this.novaOpcao[perguntaId] = '';
       },
@@ -83,6 +94,11 @@ export class QuestionarioComponent implements OnInit {
 
   removerOpcao(opcaoId: number, perguntaId: number) {
     if (!confirm('Tem certeza que deseja apagar esta opção?')) {
+      return;
+    }
+
+    if (!opcaoId) {
+      console.error('Tentativa de apagar opção sem ID!');
       return;
     }
 
@@ -138,6 +154,10 @@ export class QuestionarioComponent implements OnInit {
 
     this.questionarioService.salvarPergunta(this.novaPergunta).subscribe({
       next: (perguntaSalva) => {
+        if (!perguntaSalva.opcoesRespostas) {
+          perguntaSalva.opcoesRespostas = [];
+        }
+        
         this.perguntasDoFormulario.push(perguntaSalva);
         this.novaPergunta.descricao = '';
       },
@@ -172,5 +192,10 @@ export class QuestionarioComponent implements OnInit {
         }
       );
     }
+  }
+
+  concluirCadastro() {
+    alert('Questionário concluído com sucesso!');
+    this.router.navigate(['/home']);
   }
 }

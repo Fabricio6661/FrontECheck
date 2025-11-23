@@ -6,18 +6,19 @@ textarea {
   min-height: 120px;
   resize: vertical;
 }
+
 .star-rating {
-  direction: ltr;
-  unicode-bidi: bidi-override;
-  display: inline-flex;
-  gap: 8px;
+  display: flex;    
+  gap: 15px;          
   cursor: pointer;
+  margin-top: 5px;
 }
 
 .star {
-  font-size: 32px;
-  color: #ccc;
-  transition: color 0.2s;
+  font-size: 40px;
+  color: #e0e0e0;
+  transition: color 0.2s, transform 0.2s;
+  line-height: 1;
 }
 
 .star.selected {
@@ -26,4 +27,5 @@ textarea {
 
 .star:hover {
   color: #f7c600 !important;
+  transform: scale(1.2);
 }

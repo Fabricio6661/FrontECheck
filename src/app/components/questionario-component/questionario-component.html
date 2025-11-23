@@ -150,15 +150,7 @@
 
                   <li
                     *ngFor="let op of p.opcoesRespostas"
-                    class="list-group-item d-flex justify-content-between align-items-center"
-                  >
-                    {{ op.opcao }}
-                    <button
-                      class="btn btn-sm btn-outline-danger"
-                      (click)="removerOpcao(op.id, p.id)"
-                    >
-                      ❌
-                    </button>
+                    class="list-group-item d-flex justify-content-between align-items-center"> {{ op.opcao }} <button class="btn btn-sm btn-outline-danger" (click)="removerOpcao(op.id, p.id)">❌</button>
                   </li>
 
                   <li
@@ -186,23 +178,16 @@
                     </button>
                   </div>
                 </form>
-
               </div>
-
             </li>
-
-            <li
-              *ngIf="perguntasDoFormulario.length === 0"
-              class="list-group-item text-center text-muted"
-            >
-              Nenhuma pergunta adicionada ainda.
-            </li>
-
+            <li *ngIf="perguntasDoFormulario.length === 0" class="list-group-item text-center text-muted">Nenhuma pergunta adicionada ainda.</li>
           </ul>
-
+          <div class="text-center mt-5 mb-3">
+            <button class="btn btn-success btn-lg px-5 fw-bold" (click)="concluirCadastro()"> Concluir Cadastro</button>
+          </div>
         </div>
-
       </div>
     </div>
   </div>
 </div>
+
