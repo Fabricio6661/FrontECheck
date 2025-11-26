@@ -23,6 +23,10 @@ export class FormularioService {
     return this.http.get<any>(`${this.apiUrl}/formulario/${id}`);
   }
 
+  buscarReservaPorToken(token: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/reserva/validar/${token}`);
+  }
+
   salvarResposta(dto: RespostaDto): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/resposta/salvar`, dto);
   }

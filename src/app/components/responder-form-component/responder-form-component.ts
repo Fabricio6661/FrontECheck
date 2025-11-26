@@ -17,12 +17,13 @@ export class ResponderFormularioComponent implements OnInit {
   formularioId!: number;
   formularioNome = '';
   perguntas: any[] = [];
+  reservaId!: number;
 
   escala = [1, 2, 3, 4, 5];
   respostas: any = {};  
   loading = true;
   erro = '';
-  reservaIdParaTeste = 1;
+  sucesso = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,26 +31,14 @@ export class ResponderFormularioComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    if (idParam) {
-    this.formularioId = Number(this.route.snapshot.paramMap.get('id'));
-    this.carregarFormulario();
-    }
-  }
+    const token = this.route.snapshot.paramMap.get('token');
 
-  carregarFormulario() {
-    this.formularioService.buscarPorId(this.formularioId).subscribe({
-      next: (dados) => {
-        this.formularioNome = dados.nome;
-        this.perguntas = dados.perguntas;   // ← perguntas vêm daqui
-        this.loading = false;
-        console.log("Perguntas carregadas:", this.perguntas);
-      },
-      error: (erro) => {
-        this.erro = 'Erro ao carregar formulário.';
-        this.loading = false;
-      }
-    });
+    if (token) {
+      this.validarTokenECarregar(token);
+    }else {
+      this.erro = 'Link inválido. Nenhum token encontrado.';
+      this.loading = false;
+    }
   }
 
   enviarRespostas() {
@@ -63,11 +52,10 @@ export class ResponderFormularioComponent implements OnInit {
     const requisicoes = idsPerguntasRespondidas.map(idString => {
       const idPergunta = Number(idString);
       const valorResposta = this.respostas[idPergunta];
-      
       const perguntaOriginal = this.perguntas.find(p => p.id === idPergunta);
       
       const dto: RespostaDto = {
-        reservaId: this.reservaIdParaTeste,
+        reservaId: this.reservaId,
         perguntaId: idPergunta,
         nota: perguntaOriginal?.tipo === 'ESTRELAS' ? Number(valorResposta) : undefined,
         texto: perguntaOriginal?.tipo !== 'ESTRELAS' ? String(valorResposta) : undefined
@@ -77,17 +65,55 @@ export class ResponderFormularioComponent implements OnInit {
     });
 
     this.loading = true;
-
+    
     forkJoin(requisicoes).subscribe({
-      next: (res) => {
+      next: () => {
         this.loading = false;
-        alert("Sucesso! Todas as respostas foram enviadas.");
-        this.respostas = {};
+        this.sucesso = true;
       },
       error: (err) => {
         this.loading = false;
         console.error(err);
-        alert("Erro ao enviar. Verifique se existe uma Reserva com ID 1 no banco de dados.");
+        alert("Ocorreu um erro ao enviar suas respostas. Tente novamente.");
+      }
+    });
+  }
+
+  validarTokenECarregar(token: string) {
+    this.loading = true;
+  
+    this.formularioService.buscarReservaPorToken(token).subscribe({
+      next: (reserva) => {
+        console.log('Reserva encontrada:', reserva);
+        this.reservaId = reserva.id;
+
+        if (reserva.formulario && reserva.formulario.id) {
+          this.formularioId = reserva.formulario.id;
+          this.carregarPerguntasDoFormulario(this.formularioId);
+        } else {
+          this.erro = 'Esta reserva ainda não possui um questionário vinculado.';
+          this.loading = false;
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.erro = 'Link inválido ou expirado. Reserva não encontrada.';
+        this.loading = false;
+      }
+    });
+  }
+
+  carregarPerguntasDoFormulario(id: number) {
+    this.formularioService.buscarPorId(id).subscribe({
+      next: (formCompleto) => {
+        this.formularioNome = formCompleto.nome;
+        this.perguntas = formCompleto.perguntas || [];
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.erro = 'Erro ao carregar as perguntas do formulário.';
+        this.loading = false;
       }
     });
   }

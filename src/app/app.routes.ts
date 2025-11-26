@@ -18,6 +18,6 @@ export const routes: Routes = [
     {path: 'unidade', component: UnidadeComponent},
     {path: 'listarUsuarios', component: ListaUsuarioComponent},
     {path: 'recuperarsenha', component: RecuperarSenhaComponent},
-    {path: 'responderform/:id', component: ResponderFormularioComponent}
+    {path: 'responderform/:token', component: ResponderFormularioComponent}
 
 ];
