@@ -1,43 +1,64 @@
-@if (!isAuthPage()) {
+<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">E-Check</a>
 
-  <div class="d-flex">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Alternar navegação"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-    <!-- Sidebar -->
-    <div class="bg-primary text-white p-3 vh-100 d-flex flex-column" style="width: 220px;">
-
-      <h4 class="text-center fw-bold mb-4">
-        <a routerLink="/home" class="text-white text-decoration-none">E-Check</a>
-      </h4>
-
-      <ul class="nav nav-pills flex-column mb-auto">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a routerLink="/home" routerLinkActive="active" class="nav-link text-white">Home</a>
+          <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
         </li>
         <li class="nav-item">
-          <a routerLink="/usuarios" routerLinkActive="active" class="nav-link text-white">Usuários</a>
+          <a class="nav-link" routerLink="/listarUsuario" routerLinkActive="active">Usuários</a>
         </li>
         <li class="nav-item">
-          <a routerLink="/unidade" routerLinkActive="active" class="nav-link text-white">Unidade</a>
+          <a class="nav-link" routerLink="/listarUnidade" routerLinkActive="active">Unidade</a>
         </li>
         <li class="nav-item">
-          <a routerLink="/questionario" routerLinkActive="active" class="nav-link text-white">Questionários</a>
+          <a class="nav-link" routerLink="/listarQuestionario" routerLinkActive="active">Questionários</a>
         </li>
       </ul>
-
     </div>
-
-    <!-- Conteúdo da página -->
-    <div class="flex-grow-1 p-4">
-      <router-outlet></router-outlet>
-    </div>
-
   </div>
+</nav>
 
-} @else {
-
-  <!-- Layout da página de Login -->
-  <div class="container py-4">
-    <router-outlet></router-outlet>
+<div class="container py-4">
+  <router-outlet></router-outlet>
+</div> -->
+<!-- Sidebar Lateral -->
+<div class="sidebar">
+  <div class="sidebar-header">
+    <h2 class="brand">E-Check</h2>
   </div>
+  
+  <nav class="nav flex-column">
+    <a class="nav-link" routerLink="/home" routerLinkActive="active">
+      Home
+    </a>
+    <a class="nav-link" routerLink="/listarUsuario" routerLinkActive="active">
+      Usuários
+    </a>
+    <a class="nav-link" routerLink="/listarUnidade" routerLinkActive="active">
+      Unidade
+    </a>
+    <a class="nav-link" routerLink="/listarQuestionario" routerLinkActive="active">
+      Questionários
+    </a>
+  </nav>
+</div>
 
-}
+<!-- Conteúdo Principal -->
+<div class="content">
+  <router-outlet></router-outlet>
+</div>

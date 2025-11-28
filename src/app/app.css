@@ -1,4 +1,4 @@
-Sidebar fixa
+/* Sidebar fixa */
 .sidebar {
     position: fixed;
     top: 0;
@@ -23,6 +23,7 @@ Sidebar fixa
   .brand {
     font-weight: bold;
     margin: 0;
+    font-size: 1.5rem;
   }
   
   /* Links do menu */
@@ -33,6 +34,8 @@ Sidebar fixa
     display: flex;
     align-items: center;
     gap: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
   }
   
   /* Hover */
@@ -52,7 +55,10 @@ Sidebar fixa
   .content {
     margin-left: 230px;
     padding: 2rem;
+    min-height: 100vh;
+    background: #f8f9fa;
   }
+
   @media (max-width: 768px) {
     .sidebar {
       width: 180px;
@@ -62,4 +68,3 @@ Sidebar fixa
       margin-left: 180px;
     }
   }
-    
