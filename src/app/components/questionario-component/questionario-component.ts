@@ -42,11 +42,11 @@ export class QuestionarioComponent implements OnInit {
   carregarUnidades() {
     this.loading = true;
     this.unidadeService.listarTodas().subscribe({
-      next: (dados) => {
+      next: (dados: Unidade[]) => {  // Tipo explícito adicionado
         this.unidades = dados; 
         this.loading = false;
       },
-      error: (erro) => {
+      error: (erro: any) => {  // Tipo explícito adicionado
         console.error('Erro ao carregar unidades', erro);
         this.loading = false;
         this.mensagem = 'Erro ao carregar a lista de hotéis. Tente recarregar a página.';

@@ -15,6 +15,14 @@ export interface PerguntaDto {
     unidadeId: number;
   }
 
+  export interface Formulario {
+    id: number;
+    nome: string;
+    status: boolean;
+    unidadeId: number;
+    perguntas?: Pergunta[];
+  }
+
   export interface OpcaoRespostaDto {
     opcao: string;
     perguntaId: number;
@@ -44,6 +52,16 @@ export interface PerguntaDto {
   
     getFormulario(id: number): Observable<any> {
       return this.http.get<any>(`${this.apiUrl}/formulario/${id}`);
+    }
+
+    // NOVO: Método para listar todos os formulários
+    listar(): Observable<Formulario[]> {
+      return this.http.get<Formulario[]>(`${this.apiUrl}/formulario/listar`);
+    }
+
+    // NOVO: Método para excluir formulário
+    excluir(id: number): Observable<any> {
+      return this.http.delete<any>(`${this.apiUrl}/formulario/apagar/${id}`);
     }
     
     // (Você pode adicionar createFormulario, updateFormulario, etc. aqui depois)

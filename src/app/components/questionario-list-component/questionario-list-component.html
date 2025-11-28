@@ -1,0 +1,64 @@
+<div class="lista-wrapper">
+  <div class="lista-card">
+    <h2>Listagem de Questionários</h2>
+    <p class="subtitle">Gerencie os questionários cadastrados no sistema</p>
+
+    <!-- Barra de Ação -->
+    <div class="action-bar">
+      <a routerLink="/questionario" class="btn-primary">+ Adicionar Questionário</a>
+    </div>
+
+    <!-- Mensagens de Erro -->
+    <div *ngIf="erro" class="alert alert-danger">
+      {{ erro }}
+    </div>
+
+    <!-- Mensagens de Sucesso -->
+    <div *ngIf="sucesso" class="alert alert-success">
+      {{ sucesso }}
+    </div>
+
+    <!-- Indicador de Loading -->
+    <div *ngIf="loading" class="loading-indicator">
+      Carregando questionários...
+    </div>
+
+    <!-- Tabela de Questionários -->
+    <div *ngIf="!loading && questionarios.length > 0" class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>ID Unidade</th>
+            <th>Perguntas</th>
+            <th>Status</th>
+            <th class="acoes">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let questionario of questionarios">
+            <td>{{ questionario.id }}</td>
+            <td>{{ questionario.nome }}</td>
+            <td class="text-center">{{ questionario.unidadeId }}</td>
+            <td class="text-center">{{ getQuantidadePerguntas(questionario) }}</td>
+            <td>
+              <span [class]="getStatusClass(questionario.status)">
+                {{ getStatusTexto(questionario.status) }}
+              </span>
+            </td>
+            <td class="acoes">
+              <a [routerLink]="['/questionario/editar', questionario.id]" class="btn-acao btn-editar">Editar</a>
+              <button (click)="excluirQuestionario(questionario.id, questionario.nome)" class="btn-acao btn-excluir">Excluir</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mensagem quando não há dados -->
+    <div *ngIf="!loading && questionarios.length === 0 && !erro" class="no-data">
+      Nenhum questionário cadastrado no momento.
+    </div>
+  </div>
+</div>
