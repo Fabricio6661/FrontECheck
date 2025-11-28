@@ -1,0 +1,60 @@
+<div class="lista-wrapper">
+  <div class="lista-card">
+    <h2>Listagem de Unidades</h2>
+    <p class="subtitle">Gerencie as unidades cadastradas no sistema</p>
+
+    <!-- Barra de Ação -->
+    <div class="action-bar">
+      <a routerLink="/unidade" class="btn-primary">+ Adicionar Unidade</a>
+    </div>
+
+    <!-- Mensagens de Erro -->
+    <div *ngIf="erro" class="alert alert-danger">
+      {{ erro }}
+    </div>
+
+    <!-- Mensagens de Sucesso -->
+    <div *ngIf="sucesso" class="alert alert-success">
+      {{ sucesso }}
+    </div>
+
+    <!-- Indicador de Loading -->
+    <div *ngIf="loading" class="loading-indicator">
+      Carregando unidades...
+    </div>
+
+    <!-- Tabela de Unidades -->
+    <div *ngIf="!loading && unidades.length > 0" class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>CNPJ</th>
+            <th>Cidade/UF</th>
+            <th>Endereço</th>
+            <th>País</th>
+            <th class="acoes">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let unidade of unidades">
+            <td>{{ unidade.nome }}</td>
+            <td>{{ formatarCNPJ(unidade.cnpj) }}</td>
+            <td>{{ unidade.cidade }}/{{ unidade.uf }}</td>
+            <td>{{ unidade.rua }}, {{ unidade.numero }} - {{ unidade.bairro }}</td>
+            <td>{{ unidade.pais }}</td>
+            <td class="acoes">
+              <a [routerLink]="['/unidade/editar', unidade.id]" class="btn-acao btn-editar">Editar</a>
+              <button (click)="excluirUnidade(unidade.id, unidade.nome)" class="btn-acao btn-excluir">Excluir</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mensagem quando não há dados -->
+    <div *ngIf="!loading && unidades.length === 0 && !erro" class="no-data">
+      Nenhuma unidade cadastrada no momento.
+    </div>
+  </div>
+</div>
