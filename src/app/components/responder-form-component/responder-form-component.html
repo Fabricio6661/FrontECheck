@@ -4,28 +4,39 @@
       
       <div class="card shadow p-4 rounded-4">
 
-        <h2 class="text-center fw-bold mb-1">Responder Formulário</h2>
-        <p class="text-center text-muted mb-4">
-          {{ formularioNome }}
-        </p>
-
-        <!-- Se estiver carregando -->
-        <div *ngIf="loading" class="text-center py-4">
-          <div class="spinner-border"></div>
+        <div *ngIf="sucesso" class="text-center py-5 fade-in">
+          <div class="mb-4" style="font-size: 4rem;">🎉</div>
+          <h2 class="fw-bold text-success mb-3">Obrigado pela sua avaliação!</h2>
+          <p class="text-muted fs-5">
+            Suas respostas foram enviadas com sucesso. <br>
+            Sua opinião é muito importante para nós.
+          </p>
+          <div class="mt-5">
+            <small class="text-muted">Você já pode fechar esta página.</small>
+          </div>
         </div>
 
-        <!-- Erro -->
-        <div *ngIf="erro" class="alert alert-danger text-center">
+        <div *ngIf="loading && !sucesso" class="text-center py-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Carregando...</span>
+          </div>
+          <p class="mt-3 text-muted">Processando...</p>
+        </div>
+
+        <div *ngIf="erro && !loading && !sucesso" class="alert alert-danger text-center">
           {{ erro }}
         </div>
 
-        <!-- Formulário -->
-        <form *ngIf="!loading" (ngSubmit)="enviarRespostas()">
+        <div *ngIf="!loading && !sucesso && !erro">
 
-          <div *ngFor="let p of perguntas" class="mb-4 border rounded p-3">
+          <h2 class="text-center fw-bold mb-1">Responder Formulário</h2>
+          <p class="text-center text-muted mb-4">
+            {{ formularioNome }}
+          </p>
 
-            <label class="fw-semibold">{{ p.descricao }}</label>
+          <form (ngSubmit)="enviarRespostas()">
 
+            <div *ngFor="let p of perguntas" class="mb-4 border rounded p-3">
             <!-- ⭐ Estrelas Clicáveis -->
             <div *ngIf="p.tipo === 'ESTRELAS'" class="mt-2">
               

@@ -7,6 +7,10 @@ import { UnidadeComponent } from './components/unidade-component/unidade-compone
 import { ListaUsuarioComponent } from './components/usuario-list-component/lista-usuario-component';
 import { UnidadeListComponent } from './components/unidade-list-component/unidade-list-component';
 import { QuestionarioListComponent } from './components/questionario-list-component/questionario-list-component';
+import { RecuperarSenhaComponent } from './components/recuperar-senha-component/recuperar-senha-component';
+import { ResponderFormularioComponent } from './components/responder-form-component/responder-form-component';
+import { ReservaComponent } from './components/reserva-component/reserva-component';
+import { ListarReservaComponent } from './components/listar-reserva-component/listar-reserva-component';
 
 export const routes: Routes = [
     //{ path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -17,5 +21,9 @@ export const routes: Routes = [
     {path: 'unidade', component: UnidadeComponent},
     {path: 'listarUsuario', component: ListaUsuarioComponent},
     {path: 'listarUnidade', component: UnidadeListComponent},
-    {path: 'listarQuestionario', component: QuestionarioListComponent}
+    {path: 'listarQuestionario', component: QuestionarioListComponent},
+    {path: 'recuperarsenha', component: RecuperarSenhaComponent},
+    {path: 'responderform/:token', component: ResponderFormularioComponent},
+    {path: 'reserva', component: ReservaComponent},
+    {path: 'listarReserva', component: ListarReservaComponent},
 ];
