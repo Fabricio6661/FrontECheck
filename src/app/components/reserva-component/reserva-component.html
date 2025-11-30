@@ -8,14 +8,29 @@
           <div class="card p-3 mb-4 bg-light border-0">
               <h5 class="fw-bold mb-3 text-primary text-center">Nova Reserva</h5>
               <div class="row g-3">
-                  
-                  <div class="col-md-4">
-                      <label class="form-label fw-semibold">Unidade (Hotel)</label>
-                      <select class="form-select" [(ngModel)]="novaReserva.unidadeId">
-                          <option [ngValue]="0" disabled>Selecione...</option>
-                          <option *ngFor="let u of unidades" [value]="u.id">{{ u.nome }}</option>
-                      </select>
-                  </div>
+                 
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Unidade</label>
+                    <select class="form-select" [(ngModel)]="novaReserva.unidadeId" (change)="aoMudarUnidade()">
+                        <option [ngValue]="null">Selecione a unidade</option>
+                        <option *ngFor="let u of unidades" [ngValue]="u.id">{{ u.nome }}</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Formulário (Opcional)</label>
+                    <select class="form-select" [(ngModel)]="novaReserva.formularioId"
+                        [disabled]="!novaReserva.unidadeId || formulariosFiltrados?.length === 0">
+                        <option [ngValue]="null">Padrão (Automático)</option>
+                        <option *ngFor="let f of formulariosFiltrados" [ngValue]="f.id">
+                            {{ f.nome }}
+                        </option>
+                    </select>
+                
+                    <div *ngIf="novaReserva.unidadeId && formulariosFiltrados?.length === 0" class="form-text text-warning">
+                        Nenhum formulário encontrado para esta unidade.
+                    </div>
+                </div>
   
                   <div class="col-md-4">
                       <label class="form-label fw-semibold">Email do Hóspede</label>
@@ -26,16 +41,16 @@
                       <input type="text" class="form-control" [(ngModel)]="novaReserva.cpf" placeholder="000.000.000-00">
                   </div>
   
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                       <label class="form-label fw-semibold">Check-in</label>
                       <input type="date" class="form-control" [(ngModel)]="novaReserva.dataCheckin">
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                       <label class="form-label fw-semibold">Check-out</label>
                       <input type="date" class="form-control" [(ngModel)]="novaReserva.dataCheckout">
                   </div>
   
-                  <div class="col-md-6 d-flex align-items-end">
+                  <div class="col-md-12 d-flex align-items-end">
                       <button class="btn btn-primary w-100 fw-bold" (click)="salvarReserva()" [disabled]="loading">
                           {{ loading ? 'Salvando...' : 'Gerar Reserva' }}
                       </button>
@@ -79,9 +94,7 @@
                             </td>
                             
                             <td class="text-center">
-                                <button class="btn btn-sm btn-outline-danger" (click)="deletarReserva(r.id!)" title="Excluir">
-                                    🗑️
-                                </button>
+                                <button class="btn btn-sm btn-outline-danger" (click)="deletarReserva(r.id!)" title="Excluir"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
   

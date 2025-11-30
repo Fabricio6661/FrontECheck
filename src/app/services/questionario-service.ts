@@ -90,4 +90,7 @@ export interface PerguntaDto {
       return this.http.delete<any>(`${this.apiUrl}/opcao/apagar/${id}`);
     }
     
+    listarPorUnidade(unidadeId: number): Observable<any[]> {
+      return this.http.get<any[]>(`${this.apiUrl}/formulario/unidade/${unidadeId}`);
+    }
   }

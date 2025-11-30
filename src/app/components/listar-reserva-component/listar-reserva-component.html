@@ -5,11 +5,15 @@
           
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="fw-bold mb-0">Listagem de Reservas</h2>
+            <button class="btn btn-outline-primary btn-sm" (click)="carregarReservas()" title="Atualizar Lista">
+              <i class="bi bi-arrow-counterclockwise"></i>
+            </button>
           </div>
-
-          <div class="d-flex justify-content-between align-items-end mb-4">
-            <a routerLink="/reserva" class="btn btn-success fw-bold px-4 rounded-pill">Criar Nova Reserva</a>
-            <button class="btn btn-outline-primary btn-sm" (click)="carregarReservas()">Recarregar...</button>
+  
+          <div class="d-flex justify-content-end mb-4">
+            <a routerLink="/reserva" class="btn btn-success fw-bold px-4 rounded-pill">
+              <i class="bi bi-plus-lg me-2"></i>Criar Nova Reserva
+            </a>
           </div>
   
           <div *ngIf="loading" class="text-center py-5">
@@ -26,7 +30,7 @@
                   <th>Hóspede</th>
                   <th>Unidade ID</th>
                   <th>Período</th>
-                  <th class="text-center">Link de Avaliação</th>
+                  <th class="text-center">Link</th>
                   <th class="text-center">Ações</th>
                 </tr>
               </thead>
@@ -46,15 +50,18 @@
                   </td>
   
                   <td class="text-center">
-                    <button *ngIf="r.token" class="btn btn-sm btn-outline-success fw-bold" (click)="copiarLink(r.token)">
-                      🔗 Copiar Link
+                    <button *ngIf="r.token" class="btn btn-sm btn-outline-success fw-bold" (click)="copiarLink(r.token)" title="Copiar Link">
+                      <i class="bi bi-link-45deg fs-5"></i>
                     </button>
                     <span *ngIf="!r.token" class="badge bg-warning text-dark">Sem Token</span>
                   </td>
   
                   <td class="text-center">
+                    <button class="btn btn-sm btn-outline-info me-2" (click)="verDetalhes(r)" title="Ver Detalhes">
+                      <i class="bi bi-eye"></i>
+                    </button>
                     <button class="btn btn-sm btn-outline-danger" (click)="deletarReserva(r.id!)" title="Excluir">
-                      🗑️
+                      <i class="bi bi-trash"></i>
                     </button>
                   </td>
                 </tr>
@@ -72,3 +79,89 @@
       </div>
     </div>
   </div>
+  
+  <div class="modal fade" 
+       [class.show]="reservaSelecionada" 
+       [style.display]="reservaSelecionada ? 'block' : 'none'"
+       tabindex="-1" 
+       role="dialog"
+       aria-hidden="true">
+    
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content rounded-4 shadow-lg">
+        
+        <div class="modal-header border-bottom-0 bg-light rounded-top-4">
+          <h5 class="modal-title fw-bold">Detalhes da Reserva</h5>
+          <button type="button" class="btn-close" (click)="fecharModal()" aria-label="Close"></button>
+        </div>
+  
+        <div class="modal-body px-4 py-4" *ngIf="reservaSelecionada">
+          
+          <div class="text-center mb-4">
+            <div class="avatar-circle bg-primary-subtle text-primary mx-auto mb-2" 
+                 style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+              <i class="bi bi-person-lines-fill fs-2"></i>
+            </div>
+            <h5 class="fw-bold m-0 text-primary">Reserva #{{ reservaSelecionada.id }}</h5>
+            <span class="badge bg-secondary mt-2">{{ reservaSelecionada.status || 'EM ANDAMENTO' }}</span>
+          </div>
+  
+          <div class="row g-3">
+            <div class="col-12 p-3 bg-light rounded-3 border">
+              <label class="small text-muted fw-bold text-uppercase mb-2">Dados do Hóspede</label>
+              <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-envelope-at me-2 text-primary"></i>
+                <span class="fw-medium">{{ reservaSelecionada.email }}</span>
+              </div>
+              <div class="d-flex align-items-center mb-2" *ngIf="reservaSelecionada.cpf">
+                <i class="bi bi-person-vcard me-2 text-primary"></i>
+                <span>{{ reservaSelecionada.cpf }}</span>
+              </div>
+              <div class="d-flex align-items-center" *ngIf="reservaSelecionada.telefone">
+                <i class="bi bi-telephone me-2 text-primary"></i>
+                <span>{{ reservaSelecionada.telefone }}</span>
+              </div>
+            </div>
+  
+            <div class="col-6">
+              <div class="p-3 border rounded-3 text-center bg-success-subtle border-success">
+                <label class="small text-success fw-bold d-block mb-1">CHECK-IN</label>
+                <strong class="fs-5">{{ reservaSelecionada.dataCheckin | date:'dd/MM/yyyy' }}</strong>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="p-3 border rounded-3 text-center bg-danger-subtle border-danger">
+                <label class="small text-danger fw-bold d-block mb-1">CHECK-OUT</label>
+                <strong class="fs-5">{{ reservaSelecionada.dataCheckout | date:'dd/MM/yyyy' }}</strong>
+              </div>
+            </div>
+  
+            <div class="col-12 mt-4">
+              <label class="small text-muted fw-bold">Unidade (Hotel)</label>
+              <div class="fs-5 mb-3">ID: {{ reservaSelecionada.unidadeId }}</div>
+  
+              <label class="small text-muted fw-bold">Link de Avaliação</label>
+              <div class="input-group mt-1" *ngIf="reservaSelecionada.token">
+                <input type="text" class="form-control bg-white" readonly 
+                       [value]="'http://localhost:4200/responderform/' + reservaSelecionada.token">
+                <button class="btn btn-primary" (click)="copiarLink(reservaSelecionada.token!)" title="Copiar">
+                  <i class="bi bi-clipboard"></i>
+                </button>
+              </div>
+              <div *ngIf="!reservaSelecionada.token" class="alert alert-warning py-2 small">
+                <i class="bi bi-exclamation-triangle me-2"></i> Token não gerado para esta reserva.
+              </div>
+            </div>
+          </div>
+  
+        </div>
+  
+        <div class="modal-footer border-top-0 justify-content-center pb-4 pt-0">
+          <button type="button" class="btn btn-secondary px-5 rounded-pill fw-bold" (click)="fecharModal()">Fechar</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal-backdrop fade show" *ngIf="reservaSelecionada"></div>

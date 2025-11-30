@@ -3,6 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { Reserva, ReservaService } from "../../services/reserva-services/reserva.service";
 import { Unidade, UnidadeService } from "../../services/unidade-service";
+import { QuestionarioService } from "../../services/questionario-service";
 
 @Component({
     selector: 'app-reserva',
@@ -14,9 +15,12 @@ import { Unidade, UnidadeService } from "../../services/unidade-service";
 export class ReservaComponent implements OnInit {
     reservas: Reserva[] = [];
     unidades: Unidade[] = [];
+    todosFormularios: any[] = [];
+    formulariosFiltrados: any[] = [];
 
     novaReserva: Reserva = {
       unidadeId: 0,
+      formularioId: null,
       email: '',
       cpf: '',
       telefone: '',
@@ -27,7 +31,8 @@ export class ReservaComponent implements OnInit {
 
     constructor(
         private reservaService: ReservaService,
-        private unidadeService: UnidadeService
+        private unidadeService: UnidadeService,
+        private questionarioService: QuestionarioService
       ) {}
 
     loading = false;
@@ -38,19 +43,50 @@ export class ReservaComponent implements OnInit {
 
       carregarDados() {
         this.loading = true;
+      
         this.unidadeService.listarTodas().subscribe(dados => this.unidades = dados);
-        
-        this.reservaService.listarTodas().subscribe({
+        this.reservaService.listarTodas().subscribe(dados => this.reservas = dados);
+      
+        this.questionarioService.listar().subscribe({
           next: (dados) => {
-            this.reservas = dados;
+            this.todosFormularios = dados;
+            console.log("Todos os formulários carregados:", this.todosFormularios);
+    
+            this.aoMudarUnidade();
             this.loading = false;
           },
           error: (e) => {
-            console.error(e);
+            console.error("Erro ao carregar formulários:", e);
             this.loading = false;
           }
         });
       }
+      
+      aoMudarUnidade() {
+        const unidadeRaw = this.novaReserva.unidadeId;
+        console.log("aoMudarUnidade() -> unidadeRaw:", unidadeRaw, typeof unidadeRaw);
+        const idUnidadeSelecionada = unidadeRaw == null ? null : Number(unidadeRaw);
+      
+        this.novaReserva.formularioId = null;
+      
+        if (!this.todosFormularios || this.todosFormularios.length === 0) {
+          console.log("Ainda sem todosFormularios — formulariosFiltrados ficará vazio");
+          this.formulariosFiltrados = [];
+          return;
+        }
+      
+        if (idUnidadeSelecionada) {
+          this.formulariosFiltrados = this.todosFormularios.filter(f =>
+            Number((f as any).unidadeId) === idUnidadeSelecionada
+          );
+      
+          console.log("Formulários filtrados para a unidade", idUnidadeSelecionada, this.formulariosFiltrados);
+        } else {
+          this.formulariosFiltrados = [];
+          console.log("Nenhuma unidade selecionada — formulariosFiltrados vazio");
+        }
+      }
+
 
       salvarReserva() {
         if (!this.novaReserva.unidadeId || !this.novaReserva.email) {

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 export interface Reserva {
   id?: number;
   unidadeId: number;
+  formularioId?: number | null;
   
   email: string;
   cpf?: string;

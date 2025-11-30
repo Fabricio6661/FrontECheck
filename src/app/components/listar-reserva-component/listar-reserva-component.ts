@@ -13,6 +13,7 @@ import { RouterLink } from "@angular/router";
 export class ListarReservaComponent implements OnInit {
   reservas: Reserva[] = [];
   loading = false;
+  reservaSelecionada: Reserva | null = null;
 
   constructor(
     private reservaService: ReservaService
@@ -53,5 +54,13 @@ export class ListarReservaComponent implements OnInit {
     navigator.clipboard.writeText(link).then(() => {
       alert("Link copiado para a área de transferência!");
     });
+  }
+
+  verDetalhes(reserva: Reserva) {
+    this.reservaSelecionada = reserva;
+  }
+
+  fecharModal() {
+    this.reservaSelecionada = null;
   }
 }
