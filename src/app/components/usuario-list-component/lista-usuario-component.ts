@@ -46,26 +46,26 @@ export class ListaUsuarioComponent implements OnInit {
       });
   }
 
-  // // Futuramente, você pode implementar os métodos de exclusão
-  // excluirUsuario(id: string, nome: string) {
-  //   if (confirm(`Tem certeza que deseja excluir o usuário "${nome}"?`)) {
-  //     this.loading = true;
-  //     this.usuarioService.excluir(id) // Assumindo que o serviço tem um método 'excluir'
-  //       .subscribe({
-  //         next: () => {
-  //           this.loading = false;
-  //           this.sucesso = `Usuário "${nome}" excluído com sucesso.`;
-  //           // Recarrega a lista para refletir a exclusão
-  //           this.carregarUsuarios(); 
-  //         },
-  //         error: (erroApi) => {
-  //           this.loading = false;
-  //           console.error('Erro ao excluir usuário:', erroApi);
-  //           this.erro = erroApi.error?.message || erroApi.message || 'Erro desconhecido ao excluir o usuário.';
-  //         }
-  //       });
-  //   }
-  // }
+  // Futuramente, você pode implementar os métodos de exclusão
+  excluirUsuario(id: string, nome: string) {
+    if (confirm(`Tem certeza que deseja excluir o usuário "${nome}"?`)) {
+      this.loading = true;
+      this.usuarioService.excluir(Number(id)) // Assumindo que o serviço tem um método 'excluir'
+        .subscribe({
+          next: () => {
+            this.loading = false;
+            this.sucesso = `Usuário "${nome}" excluído com sucesso.`;
+            // Recarrega a lista para refletir a exclusão
+            this.carregarUsuarios(); 
+          },
+          error: (erroApi) => {
+            this.loading = false;
+            console.error('Erro ao excluir usuário:', erroApi);
+            this.erro = erroApi.error?.message || erroApi.message || 'Erro desconhecido ao excluir o usuário.';
+          }
+        });
+    }
+  }
 
   // Helper para mostrar o tipo como texto
   getTipoUsuario(tipo: string): string {

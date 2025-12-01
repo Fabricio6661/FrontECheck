@@ -1,67 +1,168 @@
-/* Tela dividida em 2 lados */
+@import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
+
+/* AJUSTE GLOBAL PARA OCUPAR TODA A TELA */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box; 
+    overflow: hidden; 
+}
+
+/* Container Principal: Define o fundo azul escuro dinâmico para toda a tela */
 .login-page {
-  height: 100vh;
-  width: 100%;
-  display: flex;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow: hidden; 
+
+    /* Fundo com Gradiente Animado */
+    background: linear-gradient(-45deg, #1e3c72, #2a5298, #182e5b, #132442);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
 }
 
-/* Lado esquerdo - fundo azul */
-.login-left {
-  flex: 1;
-  background: linear-gradient(135deg, #007bff, #2a9df4);
-  color: white;
-  text-align: center;
-  padding: 2rem;
-  min-height: 100%;
+/* Definição da Animação do Gradiente */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
-.login-left .logo {
-  width: 90px;
-  margin-bottom: 1rem;
+/* Contêiner da área de Login (Branding + Box) */
+.login-container {
+    display: flex;
+    background-color: #fff; 
+    border-radius: 16px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(0, 0, 0, 0.1); 
+    max-width: 900px;
+    width: 100%;
+    min-height: 500px;
+    overflow: hidden; 
+    z-index: 1; 
 }
 
-/* Lado direito - fundo branco com formulário */
-.login-right {
-  flex: 1;
-  background-color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* Lado Esquerdo (Branding) */
+.login-branding {
+    flex: 1;
+    min-width: 300px;
+    background: linear-gradient(160deg, #182e5b, #1e3c72); 
+    color: white;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
+/* APLICAÇÃO DA FONTE MICHRROMA */
+.login-branding .brand-title {
+    color: #fff; 
+    font-size: 2.5rem; /* Aumentado um pouco o tamanho para a fonte de display */
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    font-family: 'Michroma', sans-serif;
+    letter-spacing: 3px; /* Espaçamento chamativo */
+}
+
+.login-branding .tagline {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+/* Lado Direito (Formulário) */
 .login-box {
-  width: 100%;
-  max-width: 380px;
-  padding: 2rem;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    flex: 1;
+    min-width: 350px;
+    padding: 3rem; 
+    background-color: #fff; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Títulos e Textos */
+.login-box h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0.5rem !important;
+}
+
+.login-box p.text-muted {
+    color: #6c757d !important;
+    margin-bottom: 2.5rem !important;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.form-control {
+    border-radius: 8px;
+    height: 48px;
+    border: 1px solid #ced4da;
+}
+
+.form-control:focus {
+    border-color: #1e3c72;
+    box-shadow: 0 0 0 0.25rem rgba(30, 60, 114, 0.2);
 }
 
 /* Botão de login */
-button.btn-primary {
-  background-color: #007bff;
-  border: none;
-  font-weight: 500;
+.btn-primary {
+    background-color: #1e3c72;
+    border: none;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    letter-spacing: 0.5px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-button.btn-primary:hover {
-  background-color: #0069d9;
+.btn-primary:hover {
+    background-color: #1a3364;
+    transform: translateY(-1px);
 }
 
-/* Responsivo */
+/* Link "Esqueci minha Senha" */
+.login-box a.small {
+    color: #1e3c72;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-box a.small:hover {
+    text-decoration: underline;
+    color: #1a3364;
+}
+
+/* Responsividade */
 @media (max-width: 768px) {
-  .login-page {
-    flex-direction: column;
-  }
+    .login-container {
+        flex-direction: column;
+        max-width: 450px;
+    }
 
-  .login-left {
-    flex: none;
-    padding: 3rem 1rem;
-  }
+    .login-branding {
+        display: none !important;
+    }
 
-  .login-right {
-    flex: none;
-    padding: 2rem;
-  }
+    .login-box {
+        flex: none;
+        padding: 2rem;
+        border-radius: 16px;
+    }
 }

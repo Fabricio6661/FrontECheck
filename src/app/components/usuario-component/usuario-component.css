@@ -1,127 +1,95 @@
-/* Layout centralizado */
-.cadastro-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: white;
-  font-family: "Segoe UI", Arial, sans-serif;
+/* Paleta de Cores: Primário: #1e3c72 | Discreto (Fundo Card): #f5f7fa */
+
+/* Os estilos .cadastro-wrapper, .cadastro-card e @keyframes abaixo são desnecessários
+   se você estiver usando a estrutura .content e .card.shadow-lg que você forneceu.
+   Estou reajustando os estilos de formulário para as classes Bootstrap. */
+
+
+/* --- Estilos do Card (Container Principal) --- */
+
+.card.shadow-lg {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12) !important;
+    border: none;
+    border-radius: 1rem !important; /* rounded-4 */
+    
+    /* Fundo discreto para harmonizar com a lista de usuários */
+    background-color: #f5f7fa; 
 }
 
-/* Card principal */
-.cadastro-card {
-  background: #fff;
-  width: 600px;
-  padding: 55px 65px;
-  border-radius: 14px;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.10);
-  text-align: center;
-  animation: slideDown 0.4s ease-out;
+
+/* --- Títulos e Subtítulos --- */
+
+.card h2.fw-bold {
+    color: #1e3c72; /* Cor primária escura */
+    font-weight: 700 !important;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem !important;
 }
 
-/* Animação elegante */
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-15px); }
-  to { opacity: 1; transform: translateY(0); }
+.card p.text-muted {
+    color: #6c757d !important;
+    font-size: 0.95rem;
+    margin-bottom: 2rem !important;
 }
 
-/* Título e subtítulo */
-.cadastro-card h2 {
-  color: #007bff;
-  font-weight: 600;
-  font-size: 27px;
-  margin-bottom: 6px;
+
+/* --- Campos de Formulário --- */
+
+.form-label.fw-semibold {
+    display: block;
+    font-weight: 600 !important;
+    color: #495057; /* Cinza escuro para label */
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
 }
 
-.subtitle {
-  color: #6c757d;
-  font-size: 15px;
-  margin-bottom: 35px;
+.form-control,
+.form-select {
+    padding: 0.75rem 1rem; /* Aumenta o padding para melhor toque */
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    transition: all 0.25s ease;
+    background-color: #fff; /* Fundo branco para o campo */
 }
 
-/* Inputs */
-.form-group {
-  text-align: left;
-  margin-bottom: 22px;
+.form-control:focus,
+.form-select:focus {
+    border-color: #1e3c72; /* Cor de foco primária */
+    box-shadow: 0 0 0 0.25rem rgba(30, 60, 114, 0.2); /* Sombra de foco suave */
+    outline: none;
 }
 
-label {
-  display: block;
-  font-weight: 600;
-  color: #2c2c2c;
-  margin-bottom: 6px;
-  font-size: 15px;
+/* --- Botão Principal --- */
+
+.btn-primary {
+    background-color: #1e3c72;
+    border-color: #1e3c72;
+    padding: 0.65rem 2rem;
+    font-weight: 600 !important;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-input,
-select {
-  width: 100%;
-  padding: 13px;
-  font-size: 15px;
-  border: 1.4px solid #cfcfcf;
-  border-radius: 8px;
-  transition: 0.25s ease;
+.btn-primary:hover:not(:disabled) {
+    background-color: #1a3364;
+    border-color: #1a3364;
+    transform: translateY(-1px);
 }
 
-input:focus,
-select:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 6px rgba(0, 123, 255, 0.35);
-  outline: none;
+.btn-primary:disabled {
+    background-color: #b0c4de;
+    border-color: #b0c4de;
+    cursor: not-allowed;
+    opacity: 0.8;
 }
 
-/* Botão */
-button {
-  width: 100%;
-  padding: 14px;
-  background-color: #007bff;
-  color: white;
-  font-size: 17px;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  transition: 0.25s ease;
-  cursor: pointer;
-  margin-top: 10px;
+/* --- Mensagens e Validações --- */
+
+.alert-danger, .alert-success {
+    border-radius: 8px;
 }
 
-button:hover {
-  background-color: #0056b3;
-}
-
-button:disabled {
-  background-color: #b0c4de;
-  cursor: not-allowed;
-}
-
-/* Mensagens */
-.alert {
-  margin-bottom: 18px;
-  font-size: 15px;
-}
-
-/* Validações */
 .text-danger small {
-  font-size: 13px;
-}
-
-/* Responsividade */
-@media (max-width: 650px) {
-  .cadastro-card {
-    width: 92%;
-    padding: 40px 25px;
-  }
-
-  .cadastro-card h2 {
-    font-size: 23px;
-  }
-
-  input,
-  select {
-    padding: 12px;
-  }
-
-  button {
-    font-size: 16px;
-  }
+    font-size: 0.8rem;
 }

@@ -1,67 +1,77 @@
-<div class="login-page">
-  <!-- Lado esquerdo -->
-  <div class="login-left d-flex flex-column justify-content-center align-items-center text-white">
-    <img src="assets/logo.png" alt="E-Check Logo" class="logo mb-3" />
-    <h2 class="fw-bold text-dark" >E-Check color</h2>
-    <p>Você avalia, a gente evolui!</p>
-  </div>
+<main class="login-page">
+    <div class="login-container">
+        
+        <section class="login-branding d-flex flex-column justify-content-center align-items-center text-white">
+            <div class="logo-container"> 
+                <h1 class="brand-title">E-Check</h1> 
+            </div>
+            <p class="tagline">Você avalia, a gente evolui!</p>
+        </section>
 
-  <!-- Lado direito -->
-  <div class="login-right d-flex justify-content-center align-items-center">
-    <div class="login-box">
-      <h4 class="mb-3 text-center">Bem-vindo(a)</h4>
-      <p class="text-center text-muted mb-4">Faça login para acessar o sistema</p>
+        <section class="login-box" aria-label="Acesso ao Sistema">
+            <header class="text-center mb-4">
+                <h2>Bem-vindo(a)</h2>
+                <p class="text-muted">Faça login para acessar o sistema</p>
+            </header>
 
-      <div *ngIf="erro" class="alert alert-danger">{{ erro }}</div>
+            <div *ngIf="erro" class="alert alert-danger" role="alert" aria-live="assertive">{{ erro }}</div>
 
-      <form (ngSubmit)="login()" #loginForm="ngForm" novalidate>
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            class="form-control"
-            [(ngModel)]="novoEmail"
-            #email="ngModel"
-            required
-            email
-          />
-          <div *ngIf="email.invalid && email.touched" class="text-danger small">
-            <small *ngIf="email.errors?.['required']">Email é obrigatório.</small>
-            <small *ngIf="email.errors?.['email']">Formato inválido.</small>
-          </div>
-        </div>
+            <form (ngSubmit)="login()" #loginForm="ngForm" novalidate role="form" aria-label="Formulário de Login">
+                
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        class="form-control"
+                        placeholder="seu.email@exemplo.com"
+                        [(ngModel)]="novoEmail"
+                        #email="ngModel"
+                        required
+                        email
+                        aria-required="true"
+                    />
+                    <div *ngIf="email.invalid && email.touched" class="text-danger small" role="alert">
+                        <small *ngIf="email.errors?.['required']">Email é obrigatório.</small>
+                        <small *ngIf="email.errors?.['email']">Formato inválido.</small>
+                    </div>
+                </div>
 
-        <div class="mb-3">
-          <label for="senha" class="form-label">Senha</label>
-          <input
-            id="senha"
-            name="senha"
-            type="password"
-            class="form-control"
-            [(ngModel)]="novaSenha"
-            #senha="ngModel"
-            required
-            minlength="6"
-          />
-          <div *ngIf="senha.invalid && senha.touched" class="text-danger small">
-            <small *ngIf="senha.errors?.['required']">Senha é obrigatória.</small>
-            <small *ngIf="senha.errors?.['minlength']">Mínimo de 6 caracteres.</small>
-          </div>
-        </div>
+                <div class="mb-4">
+                    <label for="senha" class="form-label">Senha</label>
+                    <input
+                        id="senha"
+                        name="senha"
+                        type="password"
+                        class="form-control"
+                        placeholder="******"
+                        [(ngModel)]="novaSenha"
+                        #senha="ngModel"
+                        required
+                        minlength="6"
+                        aria-required="true"
+                    />
+                    <div *ngIf="senha.invalid && senha.touched" class="text-danger small" role="alert">
+                        <small *ngIf="senha.errors?.['required']">Senha é obrigatória.</small>
+                        <small *ngIf="senha.errors?.['minlength']">Mínimo de 6 caracteres.</small>
+                    </div>
+                </div>
 
-        <button
-          type="submit"
-          class="btn btn-primary w-100"
-          [disabled]="loginForm.invalid || loading"
-        >
-          {{ loading ? 'Entrando...' : 'Entrar' }}
-        </button>
-      </form>
-      <div class="text-center mt-3">
-        <a class="small" routerLink="/recuperarsenha">Esqueci minha Senha</a>
-      </div> 
+                <button
+                    type="submit"
+                    class="btn btn-primary w-100 mt-2"
+                    [disabled]="loginForm.invalid || loading"
+                    aria-label="{{ loading ? 'Entrando no sistema' : 'Entrar no sistema' }}"
+                >
+                    {{ loading ? 'Entrando...' : 'Entrar' }}
+                </button>
+            </form>
+            
+            <footer class="text-center mt-3">
+                <a class="small" routerLink="/recuperarsenha">Esqueci minha Senha</a>
+            </footer> 
+            
+        </section>
     </div>
-  </div>
-</div>
+</main>

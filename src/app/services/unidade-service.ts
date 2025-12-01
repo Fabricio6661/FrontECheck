@@ -47,10 +47,11 @@ export class UnidadeService {
   }
 
   // Método para excluir uma unidade por ID
-  excluir(id: string): Observable<any> {
-    const excluirUrl = `${this.apiUrl}/unidade/excluir/${id}`;
-    return this.http.delete<any>(excluirUrl);
-  }
+excluir(id: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/unidade/apagar/${id}`, {
+    responseType: 'text'
+  });
+}
 
   // Método opcional para buscar uma unidade específica por ID
   buscarPorId(id: string): Observable<UnidadeModel> {

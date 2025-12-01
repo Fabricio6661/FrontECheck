@@ -1,141 +1,170 @@
 /* 🎨 Layout geral */
 .cadastro-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 3rem 1.5rem;
-  background: linear-gradient(135deg, #eef2ff, #f8fafc);
-  min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 3rem 1.5rem;
+    /* Usando uma animação de fundo suave para o container principal */
+    background: linear-gradient(135deg, #eef2ff, #f8fafc); 
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
 }
 
 /* 📦 Card principal */
 .cadastro-card {
-  background: #ffffff;
-  padding: 3rem 3.5rem;
-  border-radius: 20px;
-  width: 100%;
-  max-width: 1050px;
+    background: #ffffff;
+    padding: 3rem 3.5rem;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 1050px;
 
-  box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.05),
-    0 12px 28px rgba(0, 0, 0, 0.08);
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.05),
+        0 12px 28px rgba(0, 0, 0, 0.08);
 
-  animation: fadeIn 0.4s ease-out;
+    animation: fadeIn 0.4s ease-out;
 }
 
 /* 🔤 Títulos */
 h2 {
-  text-align: center;
-  margin-bottom: 0.3rem;
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1e293b;
+    text-align: center;
+    margin-bottom: 0.3rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1e293b;
 }
 
 .subtitle {
-  text-align: center;
-  color: #64748b;
-  margin-bottom: 2.5rem;
-  font-size: 1rem;
+    text-align: center;
+    color: #64748b;
+    margin-bottom: 2.5rem;
+    font-size: 1rem;
 }
 
 /* 🧩 Grid do formulário */
 .form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2.2rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.2rem 3rem;
 }
 
 /* 📝 Form groups */
 .form-group {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 /* 🏷 Labels */
 label {
-  font-weight: 600;
-  margin-bottom: 0.35rem;
-  color: #334155;
-  font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+    color: #334155;
+    font-size: 0.95rem;
 }
 
-/* ✏ Inputs */
-input {
-  padding: 0.85rem 1rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  background: #f8fafc;
-  transition: all 0.25s ease;
+/* ✏ Inputs e Select */
+input, select {
+    padding: 0.85rem 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    background: #f8fafc;
+    transition: all 0.25s ease;
+    /* Resetando estilos de input/select do Bootstrap para o padrão customizado */
+    width: 100%; 
+    box-sizing: border-box; 
+    appearance: none; /* Remove seta padrão do select */
 }
 
-input:hover {
-  border-color: #94a3b8;
+input:hover, select:hover {
+    border-color: #94a3b8;
 }
 
-input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.22);
+input:focus, select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.22);
 }
 
 /* ❗ Mensagens de erro */
 .text-danger {
-  color: #dc2626;
-  font-size: 0.8rem;
-  margin-top: 0.3rem;
+    color: #dc2626;
+    font-size: 0.8rem;
+    margin-top: 0.3rem;
 }
 
-/* 🎯 Botão */
+/* 🎯 Botão (Classe renomeada de 'button' para '.btn-primary-custom') */
 .form-actions {
-  text-align: center;
-  margin-top: 3rem;
+    text-align: center;
+    margin-top: 3rem;
 }
 
-button {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 1rem 3rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+.btn-primary-custom {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 1rem 3rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+    /* Resetando estilos de botão do Bootstrap */
+    display: inline-block;
+    width: auto;
 }
 
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.32);
+.btn-primary-custom:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.32);
 }
 
-button:disabled {
-  background: #93c5fd !important;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
+.btn-primary-custom:disabled {
+    background: #93c5fd !important;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
+
+/* Mensagens de alerta customizadas para melhor integração visual */
+.alert {
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    text-align: left;
+}
+.alert-danger {
+    background-color: #fef2f2; /* Vermelho muito claro */
+    border: 1px solid #fca5a5; /* Vermelho claro */
+    color: #b91c1c; /* Vermelho escuro */
+}
+.alert-success {
+    background-color: #f0fff4; /* Verde muito claro */
+    border: 1px solid #99e699; /* Verde claro */
+    color: #166534; /* Verde escuro */
+}
+
 
 /* 📱 Responsivo */
 @media (max-width: 850px) {
-  .cadastro-card {
-    padding: 2rem;
-  }
+    .cadastro-card {
+        padding: 2rem;
+    }
 
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
+    .form-grid {
+        grid-template-columns: 1fr; /* Força grid de 1 coluna em telas pequenas */
+    }
 
-  h2 {
-    font-size: 1.7rem;
-  }
+    h2 {
+        font-size: 1.7rem;
+    }
 }
 
 /* 🌟 Animação sutil */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }

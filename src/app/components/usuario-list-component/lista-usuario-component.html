@@ -1,50 +1,92 @@
-<div class="lista-wrapper">
-  <div class="lista-card">
-    <h2>Usuários Cadastrados</h2>
-    <p class="subtitle">Gerencie e visualize todos os usuários do sistema</p>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <div class="card shadow p-4 rounded-4">
 
-    <div class="action-bar">
-      <a [routerLink]="['/usuarios']" class="btn btn-primary">
-        + Adicionar Novo Usuário
-      </a>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="fw-bold mb-0">Usuários Cadastrados</h2>
+
+                    <button class="btn btn-outline-primary btn-sm"
+                            (click)="carregarUsuarios?.()"
+                            title="Atualizar Lista">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                    </button>
+                </div>
+
+                <p class="text-muted">Gerencie e visualize todos os usuários do sistema</p>
+
+                <div class="d-flex justify-content-end mb-4">
+                    <a [routerLink]="['/usuarios']"
+                        class="btn btn-success fw-bold px-4 rounded-pill">
+                        <i class="bi bi-plus-lg me-2"></i>
+                        Adicionar Novo Usuário
+                    </a>
+                </div>
+
+                <div *ngIf="erro" class="alert alert-danger">{{ erro }}</div>
+                <div *ngIf="sucesso" class="alert alert-success">{{ sucesso }}</div>
+
+                <div *ngIf="loading" class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Carregando...</span>
+                    </div>
+                </div>
+
+                <div *ngIf="!loading" class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Tipo</th>
+                                <th class="text-center">Ações</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let usuario of usuarios">
+                                <td>#{{ usuario.id }}</td>
+
+                                <td class="fw-bold">
+                                    {{ usuario.nome }}
+                                </td>
+
+                                <td>
+                                    <small class="text-muted d-block">{{ usuario.email }}</small>
+                                </td>
+
+                                <td>
+                                    <span class="badge bg-primary-subtle text-primary px-3 py-2">
+                                        {{ getTipoUsuario(usuario.tipo) }}
+                                    </span>
+                                </td>
+
+                                <td class="text-center">
+                                    <a [routerLink]="['/editarUsuario', usuario.id]"
+                                        class="btn btn-sm btn-outline-info me-2"
+                                        title="Editar">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+
+                                    <button class="btn btn-sm btn-outline-danger"
+                                            (click)="excluirUsuario(usuario.id, usuario.nome)"
+                                            title="Excluir">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr *ngIf="usuarios.length === 0">
+                                <td colspan="5" class="text-center text-muted py-4">
+                                    Nenhum usuário cadastrado no momento.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
     </div>
-
-    <div *ngIf="erro" class="alert alert-danger">{{ erro }}</div>
-    <div *ngIf="sucesso" class="alert alert-success">{{ sucesso }}</div>
-
-    <div *ngIf="loading" class="loading-indicator">
-      Carregando usuários...
-    </div> 
-
-    <div *ngIf="!loading && usuarios.length > 0" class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Tipo</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let usuario of usuarios">
-            <td>{{ usuario.id }}</td>
-            <td>{{ usuario.nome }}</td>
-            <td>{{ usuario.email }}</td>
-            <td>{{ getTipoUsuario(usuario.tipo) }}</td>
-            <td class="acoes">
-              <a [routerLink]="['/editarUsuario', usuario.id]" class="btn-acao btn-editar">Editar</a>
-              <!-- <button (click)="excluirUsuario(usuario.id, usuario.nome)" class="btn-acao btn-excluir">Excluir</button> ainda não foi implementado -->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div *ngIf="!loading && usuarios.length === 0" class="no-data">
-      Nenhum usuário cadastrado. Que tal adicionar o primeiro?
-    </div>
-
-  </div>
 </div>

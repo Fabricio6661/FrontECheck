@@ -61,8 +61,9 @@ export interface PerguntaDto {
 
     // NOVO: Método para excluir formulário
     excluir(id: number): Observable<any> {
-      return this.http.delete<any>(`${this.apiUrl}/formulario/apagar/${id}`);
+      return this.http.delete(`${this.apiUrl}/formulario/apagar/${id}`, { responseType: 'text' });
     }
+
     
     // (Você pode adicionar createFormulario, updateFormulario, etc. aqui depois)
   

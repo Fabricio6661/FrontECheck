@@ -13,7 +13,7 @@ import { ReservaComponent } from './components/reserva-component/reserva-compone
 import { ListarReservaComponent } from './components/listar-reserva-component/listar-reserva-component';
 
 export const routes: Routes = [
-    //{ path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
     {path: 'login', component: LoginComponent},
     {path: 'usuarios', component: UsuarioComponent},
     {path: 'home', component: HomeComponent},

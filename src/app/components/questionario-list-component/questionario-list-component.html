@@ -1,64 +1,89 @@
-<div class="lista-wrapper">
-  <div class="lista-card">
-    <h2>Listagem de Questionários</h2>
-    <p class="subtitle">Gerencie os questionários cadastrados no sistema</p>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-12">
+      <div class="card shadow p-4 rounded-4">
 
-    <!-- Barra de Ação -->
-    <div class="action-bar">
-      <a routerLink="/questionario" class="btn-primary">+ Adicionar Questionário</a>
-    </div>
+        <!-- Cabeçalho -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="fw-bold mb-0">Listagem de Questionários</h2>
+          <button class="btn btn-outline-primary btn-sm"
+                  (click)="carregarQuestionarios?.()"
+                  title="Atualizar Lista">
+            <i class="bi bi-arrow-counterclockwise"></i>
+          </button>
+        </div>
 
-    <!-- Mensagens de Erro -->
-    <div *ngIf="erro" class="alert alert-danger">
-      {{ erro }}
-    </div>
+        <p class="text-muted">Gerencie os questionários cadastrados no sistema</p>
 
-    <!-- Mensagens de Sucesso -->
-    <div *ngIf="sucesso" class="alert alert-success">
-      {{ sucesso }}
-    </div>
+        <!-- Botão "Adicionar Questionário" -->
+        <div class="d-flex justify-content-end mb-4">
+          <a routerLink="/questionario"
+             class="btn btn-success fw-bold px-4 rounded-pill">
+            <i class="bi bi-plus-lg me-2"></i>Adicionar Questionário
+          </a>
+        </div>
 
-    <!-- Indicador de Loading -->
-    <div *ngIf="loading" class="loading-indicator">
-      Carregando questionários...
-    </div>
+        <!-- Mensagens -->
+        <div *ngIf="erro" class="alert alert-danger">{{ erro }}</div>
+        <div *ngIf="sucesso" class="alert alert-success">{{ sucesso }}</div>
 
-    <!-- Tabela de Questionários -->
-    <div *ngIf="!loading && questionarios.length > 0" class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>ID Unidade</th>
-            <th>Perguntas</th>
-            <th>Status</th>
-            <th class="acoes">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let questionario of questionarios">
-            <td>{{ questionario.id }}</td>
-            <td>{{ questionario.nome }}</td>
-            <td class="text-center">{{ questionario.unidadeId }}</td>
-            <td class="text-center">{{ getQuantidadePerguntas(questionario) }}</td>
-            <td>
-              <span [class]="getStatusClass(questionario.status)">
-                {{ getStatusTexto(questionario.status) }}
-              </span>
-            </td>
-            <td class="acoes">
-              <a [routerLink]="['/questionario/editar', questionario.id]" class="btn-acao btn-editar">Editar</a>
-              <button (click)="excluirQuestionario(questionario.id, questionario.nome)" class="btn-acao btn-excluir">Excluir</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+        <!-- Loading -->
+        <div *ngIf="loading" class="text-center py-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Carregando...</span>
+          </div>
+        </div>
 
-    <!-- Mensagem quando não há dados -->
-    <div *ngIf="!loading && questionarios.length === 0 && !erro" class="no-data">
-      Nenhum questionário cadastrado no momento.
+        <!-- Tabela -->
+        <div *ngIf="!loading" class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>ID Unidade</th>
+                <th class="text-center">Perguntas</th>
+                <th>Status</th>
+                <th class="text-center">Ações</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let questionario of questionarios">
+                <td>#{{ questionario.id }}</td>
+                <td>{{ questionario.nome }}</td>
+                <td class="text-center">{{ questionario.unidadeId }}</td>
+                <td class="text-center">{{ getQuantidadePerguntas(questionario) }}</td>
+                <td>
+                  <span [class]="getStatusClass(questionario.status)">
+                    {{ getStatusTexto(questionario.status) }}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <a [routerLink]="['/questionario/editar', questionario.id]"
+                     class="btn btn-sm btn-outline-info me-2"
+                     title="Editar">
+                    <i class="bi bi-pencil-square"></i>
+                  </a>
+
+                  <button class="btn btn-sm btn-outline-danger"
+                          (click)="excluirQuestionario(questionario.id, questionario.nome)"
+                          title="Excluir">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+              </tr>
+
+              <tr *ngIf="questionarios.length === 0">
+                <td colspan="6" class="text-center text-muted py-4">
+                  Nenhum questionário cadastrado no momento.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>

@@ -1,162 +1,122 @@
-/* Adaptação do layout centralizado */
-.lista-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Alinhamento superior, não precisa de 100vh */
-  min-height: 100vh; 
-  padding: 40px 0; /* Padding para dar espaço */
-  background: white;
-  font-family: "Segoe UI", Arial, sans-serif;
+/* Paleta de Cores: Primário: #1e3c72 */
+
+/* AJUSTE DO CARD PRINCIPAL */
+.card.shadow {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: none;
+    /* NOVO: Fundo mais claro e discreto */
+    background-color: #f5f7fa; 
 }
 
-/* Card Principal da Lista */
-.lista-card {
-  background: #fff;
-  width: 900px; /* Card mais largo para a tabela */
-  max-width: 95%;
-  padding: 40px 50px;
-  border-radius: 14px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  text-align: center;
+/* Títulos */
+.card h2.fw-bold {
+    color: #1e3c72; /* Cor primária escura */
+    font-weight: 700 !important;
+    font-size: 1.8rem;
 }
 
-/* Título e subtítulo - Reutilizando o estilo */
-.lista-card h2 {
-  color: #007bff;
-  font-weight: 600;
-  font-size: 28px;
-  margin-bottom: 5px;
+.text-muted {
+    color: #6c757d !important;
 }
 
-.subtitle {
-  color: #6c757d;
-  font-size: 16px;
-  margin-bottom: 30px;
+/* --- Botões de Ação --- */
+
+/* Botão de Atualizar (Outline Primary) */
+.btn-outline-primary {
+    color: #1e3c72;
+    border-color: #1e3c72;
+    transition: all 0.3s ease;
 }
 
-/* Barra de Ação (Botão Adicionar) */
-.action-bar {
-  text-align: right;
-  margin-bottom: 25px;
+.btn-outline-primary:hover {
+    background-color: #1e3c72;
+    color: white;
 }
 
-.btn-primary {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #28a745; /* Verde para ação de Adicionar */
-  color: white;
-  font-size: 16px;
-  font-weight: 500;
-  border: none;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
+/* Botão de Adicionar (Success/Green) */
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    transition: all 0.3s ease;
+}
+.btn-success:hover {
+    background-color: #1e8534;
+    border-color: #1e8534;
+}
+.btn-success.rounded-pill {
+    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.2); 
 }
 
-.btn-primary:hover {
-  background-color: #1e7e34;
+/* --- Tabela --- */
+
+.table-responsive {
+    width: 100%;
 }
 
-/* Tabela */
-.table-container {
-  overflow-x: auto; /* Garante que a tabela é responsiva */
+.table {
+    border-collapse: separate; 
+    border-spacing: 0;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
+/* Cabeçalho da Tabela */
+.table-light th {
+    background-color: #f8f9fa; 
+    color: #495057; 
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 1rem 1rem;
+    border-bottom: 2px solid #dee2e6;
 }
 
-th, td {
-  padding: 12px 15px;
-  border-bottom: 1px solid #dee2e6;
+/* Linhas da Tabela */
+.table-hover tbody tr:hover {
+    background-color: #e9ecf0; /* Destaque mais suave que harmoniza com o #f5f7fa */
 }
 
-th {
-  background-color: #f8f9fa;
-  color: #333;
-  font-weight: 600;
-  font-size: 15px;
+/* Badge (Tipo de Usuário) */
+.badge.bg-primary-subtle {
+    background-color: rgba(30, 60, 114, 0.15) !important; 
+    color: #1e3c72 !important; 
+    font-weight: 600;
+    border-radius: 6px;
 }
 
-tr:hover {
-  background-color: #f1f1f1;
+/* --- Botões de Ações na Tabela (Editar/Excluir) --- */
+
+/* Botão Editar (Outline Info) */
+.btn-outline-info {
+    color: #0dcaf0;
+    border-color: #0dcaf0;
+    transition: all 0.2s;
+}
+.btn-outline-info:hover {
+    background-color: #0dcaf0;
+    color: white;
 }
 
-/* Coluna de Ações */
-.acoes {
-  white-space: nowrap; /* Impede que os botões quebrem linha */
+/* Botão Excluir (Outline Danger) */
+.btn-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+    transition: all 0.2s;
+}
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
 }
 
-.btn-acao {
-  padding: 6px 12px;
-  border-radius: 6px;
-  margin-right: 8px;
-  font-size: 14px;
-  cursor: pointer;
-  border: none;
-  text-decoration: none;
-  transition: opacity 0.2s;
+/* Mensagens de Erro/Sucesso */
+.alert-danger, .alert-success {
+    border-radius: 8px;
 }
 
-.btn-acao:last-child {
-  margin-right: 0;
+/* Loading Spinner */
+.spinner-border.text-primary {
+    color: #1e3c72 !important;
 }
 
-.btn-editar {
-  background-color: #ffc107; /* Amarelo */
-  color: #333;
-}
-
-.btn-editar:hover {
-  background-color: #e0a800;
-}
-
-.btn-excluir {
-  background-color: #dc3545; /* Vermelho */
-  color: white;
-}
-
-.btn-excluir:hover {
-  background-color: #c82333;
-}
-
-/* Mensagens e Sem Dados */
-.alert, .loading-indicator, .no-data {
-  margin-top: 20px;
-  padding: 15px;
-  border-radius: 8px;
-}
-
-.loading-indicator {
-  background-color: #e9ecef;
-  color: #6c757d;
-  font-style: italic;
-}
-
-.no-data {
-  background-color: #fff3cd;
-  color: #856404;
-  border: 1px solid #ffeeba;
-}
-
-/* Responsivo */
-@media (max-width: 950px) {
-  .lista-card {
-    width: 95%;
-    padding: 30px 20px;
-  }
-}
-
-/* Mensagens de erro/sucesso do seu arquivo original */
-.alert-danger {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-}
-.alert-success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+/* Mensagem de Tabela Vazia */
+tbody tr:last-child > td.text-muted {
+    font-style: italic;
+    color: #999 !important;
 }

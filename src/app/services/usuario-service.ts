@@ -22,7 +22,16 @@ export class UsuarioService {
   }
 
   listar(): Observable<UsuarioModel[]> {
-    const listarUrl = `${this.apiUrl}/usuarios`;  // Endereço da API para listar usuários
+    const listarUrl = `${this.apiUrl}/usuario/listar`;  // Endereço da API para listar usuários
     return this.http.get<UsuarioModel[]>(listarUrl);
   }
+
+excluir(id: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/usuario/apagar/${id}`, {
+    responseType: 'text'
+  });
+}
+
+
+
 }

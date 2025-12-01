@@ -50,7 +50,7 @@ export class UnidadeListComponent implements OnInit {
       this.erro = '';
       this.sucesso = '';
       
-      this.unidadeService.excluir(id)
+      this.unidadeService.excluir(Number(id))
         .subscribe({
           next: () => {
             this.loading = false;

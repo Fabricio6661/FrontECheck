@@ -1,70 +1,116 @@
-/* Sidebar fixa */
+/* IMPORTANTE: Adicione a importação da fonte Michroma no topo do seu CSS */
+@import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
+
+/* --- ESTILOS GLOBAIS (Para ocupar toda a página) --- */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box; 
+    overflow-x: hidden; /* Garante que não haja scroll horizontal */
+}
+
+/* --- SIDEBAR FIXA --- */
 .sidebar {
     position: fixed;
     top: 0;
     left: 0;
     width: 230px;
     height: 100vh;
-    background: #0d6efd; /* azul bootstrap */
+    /* Fundo Índigo Escuro Consistente */
+    background: #1e3c72; /* Usando o mesmo tom escuro do login/home */
     color: white;
     padding: 1rem 0;
     display: flex;
     flex-direction: column;
-    box-shadow: 3px 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Header */
-  .sidebar-header {
+    box-shadow: 3px 0 15px rgba(0, 0, 0, 0.4); /* Sombra mais forte */
+    z-index: 1000; /* Garante que fique acima de todo o conteúdo */
+}
+ 
+/* Header */
+.sidebar-header {
     text-align: center;
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  }
-  
-  .brand {
+    padding: 1.5rem 0; /* Mais espaçamento */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+ 
+.brand {
+    /* APLICAÇÃO DA FONTE CHAMATIVA */
+    font-family: 'Michroma', sans-serif;
     font-weight: bold;
     margin: 0;
     font-size: 1.5rem;
-  }
-  
-  /* Links do menu */
-  .nav-link {
-    color: #e3f2fd;
-    padding: 10px 20px;
-    font-size: 1rem;
+    letter-spacing: 1px;
+    color: #fff;
+}
+ 
+/* Links do menu */
+.nav-link {
+    color: #cbd5e1; /* Tom claro para o texto */
+    padding: 12px 20px; /* Mais altura nos itens */
+    font-size: 0.95rem;
     display: flex;
     align-items: center;
     gap: 8px;
     text-decoration: none;
-    transition: all 0.3s ease;
-  }
-  
-  /* Hover */
-  .nav-link:hover {
-    background: rgba(255, 255, 255, 0.15);
+    transition: all 0.2s ease;
+}
+ 
+/* Hover */
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.15); /* Efeito de destaque mais visível */
     color: #fff;
-  }
-  
-  /* Item ativo */
-  .nav-link.active {
-    background: rgba(0, 0, 0, 0.2);
+}
+ 
+/* Item ativo */
+.nav-link.active {
+    /* Destaque primário, usando a cor mais clara do seu gradiente anterior */
+    background: #2a5298; 
     color: #fff;
-    font-weight: bold;
-  }
-  
-  /* Conteúdo principal deslocado */
-  .content {
-    margin-left: 230px;
+    font-weight: 600;
+    /* Adiciona uma pequena borda lateral para um toque de design */
+    border-left: 5px solid #00d1ff; 
+    padding-left: 15px; /* Compensa o espaço da borda */
+}
+ 
+/* --- CONTEÚDO PRINCIPAL --- */
+.content {
+    margin-left: 230px; /* Deslocamento igual à largura da sidebar */
     padding: 2rem;
     min-height: 100vh;
-    background: #f8f9fa;
-  }
+    /* Fundo ANIMADO: Se você quiser o fundo animado em todo o conteúdo */
+    background: linear-gradient(-45deg, #1e3c72, #2a5298, #182e5b, #132442);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
 
-  @media (max-width: 768px) {
+/* Reaplicando a animação (do CSS da página de Login) */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 768px) {
     .sidebar {
-      width: 180px;
+        width: 60px; /* Sidebar colapsada em mobile, apenas ícones */
     }
-  
+
+    /* Esconde o texto da marca e dos links em mobile */
+    .sidebar .brand,
+    .sidebar .nav-link span {
+        display: none;
+    }
+    
+    /* Ajusta o padding dos links para que fiquem centrados */
+    .sidebar .nav-link {
+        justify-content: center;
+        padding: 15px 5px;
+    }
+ 
     .content {
-      margin-left: 180px;
+        margin-left: 60px; /* Desloca o conteúdo para a nova largura da sidebar */
     }
-  }
+}
