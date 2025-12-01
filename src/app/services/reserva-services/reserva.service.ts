@@ -38,4 +38,8 @@ export class ReservaService {
   deletar(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/apagar/${id}`);
   }
+
+  atualizar(reserva: Reserva): Observable<Reserva> {
+    return this.http.put<Reserva>(`${this.apiUrl}/atualizar/${reserva.id}`, reserva);
+  }
 }

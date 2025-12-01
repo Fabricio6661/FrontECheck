@@ -60,6 +60,11 @@
                     <button class="btn btn-sm btn-outline-info me-2" (click)="verDetalhes(r)" title="Ver Detalhes">
                       <i class="bi bi-eye"></i>
                     </button>
+
+                    <button class="btn btn-sm btn-outline-primary me-1" (click)="abrirModalEdicao(r)" title="Editar">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+
                     <button class="btn btn-sm btn-outline-danger" (click)="deletarReserva(r.id!)" title="Excluir">
                       <i class="bi bi-trash"></i>
                     </button>
@@ -165,3 +170,66 @@
   </div>
   
   <div class="modal-backdrop fade show" *ngIf="reservaSelecionada"></div>
+
+  <div class="modal fade" 
+     [class.show]="reservaEmEdicao" 
+     [style.display]="reservaEmEdicao ? 'block' : 'none'"
+     tabindex="-1" 
+     style="background-color: rgba(0,0,0,0.5);">
+  
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 shadow-lg">
+      
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title fw-bold">Editar Reserva</h5>
+        <button type="button" class="btn-close" (click)="fecharModalEdicao()"></button>
+      </div>
+
+      <div class="modal-body px-4" *ngIf="reservaEmEdicao">
+        <form (ngSubmit)="salvarEdicao()" #formEdicao="ngForm">
+            
+            <div class="mb-3">
+                <label class="form-label fw-semibold small">Email do Hóspede</label>
+                <input type="email" class="form-control" name="email" [(ngModel)]="reservaEmEdicao.email" required>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold small">CPF</label>
+                    <input type="text" class="form-control" name="cpf" [(ngModel)]="reservaEmEdicao.cpf">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold small">Telefone</label>
+                    <input type="text" class="form-control" name="telefone" [(ngModel)]="reservaEmEdicao.telefone">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold small">Unidade</label>
+                <select class="form-select" name="unidadeId" [(ngModel)]="reservaEmEdicao.unidadeId" required>
+                    <option *ngFor="let u of unidades" [value]="u.id">{{ u.nome }}</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold small">Check-in</label>
+                    <input type="date" class="form-control" name="dataCheckin" [(ngModel)]="reservaEmEdicao.dataCheckin" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold small">Check-out</label>
+                    <input type="date" class="form-control" name="dataCheckout" [(ngModel)]="reservaEmEdicao.dataCheckout" required>
+                </div>
+            </div>
+
+            <div class="d-grid mt-4 mb-3">
+                <button type="submit" class="btn btn-primary fw-bold" [disabled]="!formEdicao.valid">
+                    Salvar Alterações
+                </button>
+            </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
