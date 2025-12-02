@@ -1,0 +1,102 @@
+<div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        
+        <div class="card shadow-lg p-4 rounded-4 mb-4">
+          <h2 class="fw-bold mb-4 text-center text-primary">Dashboard de Relatórios</h2>
+  
+          <div class="row g-2 align-items-end justify-content-center">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Selecione o Questionário</label>
+              <select class="form-select" [(ngModel)]="formularioSelecionadoId">
+                <option [ngValue]="null" disabled>Selecione...</option>
+                <option *ngFor="let f of formularios" [value]="f.id">
+                  {{ f.nome }} (Unidade {{ f.unidadeId }})
+                </option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-primary w-100 fw-bold" 
+                      (click)="carregarRelatorio()" 
+                      [disabled]="!formularioSelecionadoId || loading">
+                <i class="bi bi-bar-chart-fill me-2"></i>
+                {{ loading ? 'Gerando...' : 'Gerar Relatório' }}
+              </button>
+            </div>
+          </div>
+          
+          <div *ngIf="erro" class="alert alert-danger mt-3 text-center">
+            {{ erro }}
+          </div>
+  
+        </div>
+  
+        <div *ngIf="relatorio" class="fade-in">
+          
+          <div class="row mb-4">
+            <div class="col-md-12">
+              <div class="card bg-primary text-white rounded-4 border-0 shadow">
+                <div class="card-body text-center py-4">
+                  <h3 class="fw-bold">{{ relatorio.nomeFormulario }}</h3>
+                  <div class="fs-5">
+                    Total de Avaliações: <span class="badge bg-white text-primary fs-5">{{ relatorio.totalAvaliacoes }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row g-4">
+            
+            <div class="col-md-12" *ngFor="let item of relatorio.itens">
+              <div class="card h-100 shadow-sm border-0">
+                <div class="card-header bg-white border-bottom-0 pt-3 pb-0">
+                  <h5 class="fw-bold text-secondary">{{ item.pergunta }}</h5>
+                  <span class="badge bg-light text-dark border">{{ item.tipo }}</span>
+                </div>
+                <div class="card-body">
+                  
+                  <div *ngIf="item.tipo === 'ESTRELAS'" class="text-center py-3">
+                    <h1 class="display-4 fw-bold text-warning mb-0">
+                      {{ item.media }} <span class="fs-4 text-muted">/ 5</span>
+                    </h1>
+                    <div class="text-warning fs-4">
+                      <i class="bi bi-star-fill" *ngFor="let i of [1,2,3,4,5]" 
+                         [ngClass]="{'text-warning': i <= (item.media || 0), 'text-black-50 opacity-25': i > (item.media || 0)}"></i>
+                    </div>
+                  </div>
+  
+                  <div *ngIf="item.tipo === 'TEXTO_ABERTO'">
+                    <div class="list-group list-group-flush" style="max-height: 200px; overflow-y: auto;">
+                      <div *ngFor="let msg of item.comentarios" class="list-group-item bg-light mb-2 rounded">
+                        <i class="bi bi-chat-quote-fill text-muted me-2"></i> {{ msg }}
+                      </div>
+                      <div *ngIf="!item.comentarios || item.comentarios.length === 0" class="text-muted fst-italic">
+                        Nenhum comentário registrado.
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div *ngIf="item.tipo === 'MULTIPLA_ESCOLHA'">
+                    <ul class="list-group border-0">
+                      <li *ngFor="let key of getChaves(item.contagemOpcoes)" class="list-group-item border-0 px-0">
+                        <div class="d-flex justify-content-between mb-1">
+                          <span>{{ key }}</span>
+                          <span class="fw-bold">{{ item.contagemOpcoes![key] }} votos</span>
+                        </div>
+                        <div class="progress" style="height: 10px;">
+                          <div class="progress-bar bg-info" role="progressbar" 
+                               [style.width.%]="(item.contagemOpcoes![key] / (relatorio.totalAvaliacoes || 1)) * 100">
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+  
+                </div>
+              </div>
+            </div>
+  
+          </div> </div> </div>
+    </div>
+  </div>

@@ -11,6 +11,7 @@ import { RecuperarSenhaComponent } from './components/recuperar-senha-component/
 import { ResponderFormularioComponent } from './components/responder-form-component/responder-form-component';
 import { ReservaComponent } from './components/reserva-component/reserva-component';
 import { ListarReservaComponent } from './components/listar-reserva-component/listar-reserva-component';
+import { DashboardComponent } from './components/dashboards-component/dashboard-component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -26,4 +27,5 @@ export const routes: Routes = [
     {path: 'responderform/:token', component: ResponderFormularioComponent},
     {path: 'reserva', component: ReservaComponent},
     {path: 'listarReserva', component: ListarReservaComponent},
+    {path: 'dashboard', component: DashboardComponent}
 ];
