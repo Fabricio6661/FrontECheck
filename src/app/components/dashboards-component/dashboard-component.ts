@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
     formularioSelecionadoId: number | null = null;
     
     relatorio: Relatorio | null = null;
-    
+    downloading = false;
     loading = false;
     erro = '';
   
@@ -59,4 +59,28 @@ export class DashboardComponent implements OnInit {
     getChaves(mapa: any): string[] {
         return mapa ? Object.keys(mapa) : [];
     }
+
+    downloadPdf() {
+        if (!this.formularioSelecionadoId) return;
+    
+        this.downloading = true;
+    
+        this.relatorioService.baixarPdf(this.formularioSelecionadoId).subscribe({
+          next: (blob) => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `relatorio-satisfacao-${this.formularioSelecionadoId}.pdf`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            this.downloading = false;
+          },
+          error: (err) => {
+            console.error('Erro ao baixar PDF', err);
+            alert('Erro ao baixar o PDF.');
+            this.downloading = false;
+          }
+        });
+      }
 }

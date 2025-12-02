@@ -41,6 +41,14 @@
                   <div class="fs-5">
                     Total de Avaliações: <span class="badge bg-white text-primary fs-5">{{ relatorio.totalAvaliacoes }}</span>
                   </div>
+
+                  <button class="btn btn-light text-primary fw-bold px-4 rounded-pill shadow-sm" 
+                        (click)="downloadPdf()" 
+                        [disabled]="downloading">
+                    <i class="bi" [ngClass]="downloading ? 'bi-hourglass-split' : 'bi-file-earmark-pdf-fill'"></i>
+                    {{ downloading ? 'Baixando...' : 'Baixar PDF' }}
+                  </button>
+
                 </div>
               </div>
             </div>

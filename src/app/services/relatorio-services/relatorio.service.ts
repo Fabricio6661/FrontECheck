@@ -28,4 +28,10 @@ export class RelatorioService {
   gerarRelatorio(formularioId: number): Observable<Relatorio> {
     return this.http.get<Relatorio>(`${this.apiUrl}/${formularioId}`);
   }
+
+  baixarPdf(formularioId: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${formularioId}/pdf`, {
+      responseType: 'blob'
+    });
+  }
 }
