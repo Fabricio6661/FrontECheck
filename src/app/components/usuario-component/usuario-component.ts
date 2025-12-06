@@ -4,6 +4,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../../services/usuario-service';
 import { Router } from '@angular/router';
+import { TipoUsuario } from '../enums/tipo-usuario.enum';
 
 @Component({
   selector: 'app-usuario',
@@ -21,7 +22,7 @@ export class UsuarioComponent {
     nome: '',
     email: '',
     senha: '',
-    tipo: ''
+    tipo: TipoUsuario.ATENDENTE
   };
 
   // ✅ ADICIONE O Router AQUI
@@ -61,7 +62,7 @@ export class UsuarioComponent {
           this.router.navigate(['/listarUsuarios']);
 
           this.usuarioForm.resetForm();
-          this.novoUsuario = { id: '', nome: '', email: '', senha: '', tipo: '' };
+          this.novoUsuario = { id: '', nome: '', email: '', senha: '', tipo: TipoUsuario.ATENDENTE };
         },
 
         error: (erroApi) => {
