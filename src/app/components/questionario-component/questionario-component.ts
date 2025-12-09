@@ -24,11 +24,7 @@ export class QuestionarioComponent implements OnInit {
   novaPergunta: PerguntaDto = { 
     descricao: '', 
     tipo: 'ESTRELAS',
-    formularioId: 0
-  };
-  
-  // ✅ NOVO: Array para opções temporárias antes de salvar a pergunta
-  opcoesTemporarias: string[] = [];
+    formularioId: 0};
   editandoIndex: number | null = null;
   novaOpcao: { [key: number]: string } = {};
 
@@ -46,41 +42,16 @@ export class QuestionarioComponent implements OnInit {
   carregarUnidades() {
     this.loading = true;
     this.unidadeService.listarTodas().subscribe({
-      next: (dados: Unidade[]) => {  
+      next: (dados: Unidade[]) => {  // Tipo explícito adicionado
         this.unidades = dados; 
         this.loading = false;
       },
-      error: (erro: any) => {  
+      error: (erro: any) => {  // Tipo explícito adicionado
         console.error('Erro ao carregar unidades', erro);
         this.loading = false;
         this.mensagem = 'Erro ao carregar a lista de hotéis. Tente recarregar a página.';
       }
     });
-  }
-
-  // ✅ NOVO: Limpar opções temporárias quando mudar o tipo
-  onTipoChange() {
-    if (this.novaPergunta.tipo !== 'MULTIPLA_ESCOLHA') {
-      this.opcoesTemporarias = [];
-    }
-  }
-
-  // ✅ NOVO: Adicionar opção temporária
-  adicionarOpcaoTemporaria() {
-    const novaOpcao = this.novaOpcao[0] || '';
-    
-    if (!novaOpcao || novaOpcao.trim() === '') {
-      alert('O texto da opção não pode ser vazio.');
-      return;
-    }
-
-    this.opcoesTemporarias.push(novaOpcao.trim());
-    this.novaOpcao[0] = '';
-  }
-
-  // ✅ NOVO: Remover opção temporária
-  removerOpcaoTemporaria(index: number) {
-    this.opcoesTemporarias.splice(index, 1);
   }
 
   adicionarOpcao(perguntaId: number) {
@@ -181,12 +152,6 @@ export class QuestionarioComponent implements OnInit {
       return;
     }
 
-    // ✅ VALIDAÇÃO: Para múltipla escolha, deve ter pelo menos 2 opções
-    if (this.novaPergunta.tipo === 'MULTIPLA_ESCOLHA' && this.opcoesTemporarias.length < 2) {
-      alert('Para múltipla escolha, você deve adicionar pelo menos 2 opções.');
-      return;
-    }
-
     this.questionarioService.salvarPergunta(this.novaPergunta).subscribe({
       next: (perguntaSalva) => {
         if (!perguntaSalva.opcoesRespostas) {
@@ -195,42 +160,11 @@ export class QuestionarioComponent implements OnInit {
         
         this.perguntasDoFormulario.push(perguntaSalva);
         this.novaPergunta.descricao = '';
-        
-        // ✅ LIMPAR: Limpar opções temporárias e resetar tipo
-        this.opcoesTemporarias = [];
-        this.novaPergunta.tipo = 'ESTRELAS';
-        
-        // ✅ NOVO: Salvar as opções temporárias
-        if (this.novaPergunta.tipo === 'MULTIPLA_ESCOLHA') {
-          this.salvarOpcoesParaPergunta(perguntaSalva.id);
-        }
       },
       error: (erro) => {
         console.error('Erro ao salvar pergunta:', erro);
         alert('Erro ao salvar pergunta: ' + (erro.error?.message || erro.message));
       }
-    });
-  }
-
-  // ✅ NOVO: Salvar opções após salvar a pergunta
-  private salvarOpcoesParaPergunta(perguntaId: number) {
-    this.opcoesTemporarias.forEach(opcaoTexto => {
-      const dto: OpcaoRespostaDto = {
-        opcao: opcaoTexto,
-        perguntaId: perguntaId
-      };
-
-      this.questionarioService.salvarOpcao(dto).subscribe({
-        next: (opcaoSalva) => {
-          const pergunta = this.perguntasDoFormulario.find(p => p.id === perguntaId);
-          if (pergunta && pergunta.opcoesRespostas) {
-            pergunta.opcoesRespostas.push(opcaoSalva);
-          }
-        },
-        error: (erro) => {
-          console.error('Erro ao salvar opção:', erro);
-        }
-      });
     });
   }
 
