@@ -1,130 +1,80 @@
-<div class="container-fluid py-4">
+<div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-12 col-lg-10 col-xl-8">
-            <div class="card bg-white shadow-lg border-0 rounded-4">
-                <div class="card-body p-4">
-                    
-                    <h2 class="mb-4 text-dark">Lista de Unidades</h2>
+        <div class="col-lg-12">
+            <div class="card shadow p-4 rounded-4">
 
-                    <!-- Botão para criar nova unidade -->
-                    <div class="mb-3">
-                        <a routerLink="/unidade" class="btn btn-primary">
-                            <i class="bi bi-plus-circle"></i> Criar Nova Unidade
-                        </a>
-                    </div>
-
-                    <!-- Loading -->
-                    <div *ngIf="loading" class="text-center">
-                        <div class="spinner-border" role="status">
-                            <span class="visually-hidden">Carregando...</span>
-                        </div>
-                        <p>Carregando unidades...</p>
-                    </div>
-
-                    <!-- Mensagem quando não há unidades -->
-                    <div *ngIf="!loading && unidades.length === 0" class="text-center">
-                        <p class="text-muted">Nenhuma unidade encontrada.</p>
-                    </div>
-
-                    <!-- Tabela de unidades -->
-                    <div *ngIf="!loading && unidades.length > 0" class="table-responsive">
-                        <table class="table table-striped table-hover">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nome</th>
-                                    <th>CNPJ</th>
-                                    <th>Cidade/UF</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let unidade of unidades">
-                                    <td>{{ unidade.id }}</td>
-                                    <td>{{ unidade.nome }}</td>
-                                    <td>{{ unidade.cnpj }}</td>
-                                    <td>{{ unidade.cidade }}/{{ unidade.uf }}</td>
-                                    <td>
-                                        <button class="btn btn-warning btn-sm me-2" (click)="abrirModalEdicao(unidade)"
-                                            data-bs-toggle="modal" data-bs-target="#editarUnidadeModal">
-                                            <i class="bi bi-pencil"></i> Editar
-                                        </button>
-                                        <button class="btn btn-danger btn-sm" (click)="deletarUnidade(unidade.id)">
-                                            <i class="bi bi-trash"></i> Excluir
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="fw-bold mb-0">Listagem de Unidades</h2>
+                    <button class="btn btn-outline-primary btn-sm"
+                            (click)="carregarUnidades?.()"
+                            title="Atualizar Lista">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                    </button>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Modal de edição da unidade -->
-<div class="modal fade" id="editarUnidadeModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Editar Unidade</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="fecharModalEdicao()"></button>
-            </div>
-            <div class="modal-body" *ngIf="unidadeEmEdicao">
-                <form>
-                    <div class="mb-3">
-                        <label for="nome" class="form-label">Nome</label>
-                        <input type="text" class="form-control" id="nome" [(ngModel)]="unidadeEmEdicao.nome"
-                            name="nome">
+                <p class="text-muted">Gerencie as unidades cadastradas no sistema</p>
+
+                <div class="d-flex justify-content-end mb-4">
+                    <a routerLink="/unidade"
+                        class="btn btn-success fw-bold px-4 rounded-pill">
+                        <i class="bi bi-plus-lg me-2"></i>Adicionar Unidade
+                    </a>
+                </div>
+
+                <div *ngIf="erro" class="alert alert-danger">{{ erro }}</div>
+                <div *ngIf="sucesso" class="alert alert-success">{{ sucesso }}</div>
+
+                <div *ngIf="loading" class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Carregando...</span>
                     </div>
-                    <div class="mb-3">
-                        <label for="cnpj" class="form-label">CNPJ</label>
-                        <input type="text" class="form-control" id="cnpj" [(ngModel)]="unidadeEmEdicao.cnpj"
-                            name="cnpj">
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="pais" class="form-label">País</label>
-                            <input type="text" class="form-control" id="pais" [(ngModel)]="unidadeEmEdicao.pais"
-                                name="pais">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="uf" class="form-label">UF</label>
-                            <input type="text" class="form-control" id="uf" [(ngModel)]="unidadeEmEdicao.uf" name="uf">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="cidade" class="form-label">Cidade</label>
-                            <input type="text" class="form-control" id="cidade" [(ngModel)]="unidadeEmEdicao.cidade"
-                                name="cidade">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="bairro" class="form-label">Bairro</label>
-                            <input type="text" class="form-control" id="bairro" [(ngModel)]="unidadeEmEdicao.bairro"
-                                name="bairro">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8 mb-3">
-                            <label for="rua" class="form-label">Rua</label>
-                            <input type="text" class="form-control" id="rua" [(ngModel)]="unidadeEmEdicao.rua"
-                                name="rua">
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label for="numero" class="form-label">Número</label>
-                            <input type="text" class="form-control" id="numero" [(ngModel)]="unidadeEmEdicao.numero"
-                                name="numero">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                    (click)="fecharModalEdicao()">Fechar</button>
-                <button type="button" class="btn btn-primary" (click)="salvarEdicao()">Salvar Alterações</button>
+                </div>
+
+                <div *ngIf="!loading" class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Nome</th>
+                                <th>CNPJ</th>
+                                <th>Cidade/UF</th>
+                                <th>Endereço</th>
+                                <th>País</th>
+                                <th class="text-center">Ações</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let unidade of unidades">
+                                <td class="fw-bold">{{ unidade.nome }}</td>
+                                <td>{{ formatarCNPJ(unidade.cnpj) }}</td>
+                                <td>{{ unidade.cidade }}/{{ unidade.uf }}</td>
+                                <td>{{ unidade.rua }}, {{ unidade.numero }} - {{ unidade.bairro }}</td>
+                                <td>{{ unidade.pais }}</td>
+
+                                <td class="text-center">
+                                    <a [routerLink]="['/unidade/editar', unidade.id]"
+                                        class="btn btn-sm btn-outline-info me-2"
+                                        title="Editar">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+
+                                    <button class="btn btn-sm btn-outline-danger"
+                                            (click)="excluirUnidade(unidade.id, unidade.nome)"
+                                            title="Excluir">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr *ngIf="unidades.length === 0">
+                                <td colspan="6" class="text-center text-muted py-4">
+                                    Nenhuma unidade cadastrada no momento.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>

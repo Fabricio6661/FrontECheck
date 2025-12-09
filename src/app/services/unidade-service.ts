@@ -20,14 +20,14 @@ export interface Unidade {
   providedIn: 'root'
 })
 export class UnidadeService {
-
+  
   private apiUrl = 'http://localhost:8080';
 
   constructor(private http: HttpClient) { }
 
-  autenticar(credenciais: UnidadeModel): Observable<any> {
-    const loginUrl = `${this.apiUrl}/unidade/salvar`;
-    return this.http.post<any>(loginUrl, credenciais);
+  autenticar(credenciais: UnidadeModel): Observable<any> { 
+      const loginUrl = `${this.apiUrl}/unidade/salvar`;
+      return this.http.post<any>(loginUrl, credenciais);
   }
 
   salvar(unidade: any): Observable<UnidadeModel> {
@@ -47,19 +47,15 @@ export class UnidadeService {
   }
 
   // Método para excluir uma unidade por ID
-  excluir(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/unidade/apagar/${id}`, {
-      responseType: 'text'
-    });
-  }
+excluir(id: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/unidade/apagar/${id}`, {
+    responseType: 'text'
+  });
+}
 
   // Método opcional para buscar uma unidade específica por ID
   buscarPorId(id: string): Observable<UnidadeModel> {
     const buscarUrl = `${this.apiUrl}/unidade/${id}`;
     return this.http.get<UnidadeModel>(buscarUrl);
-  }
-
-  atualizar(unidade: Unidade): Observable<any> {
-    return this.http.put(`${this.apiUrl}/unidade/atualizar/${unidade.id}`, unidade);
   }
 }
