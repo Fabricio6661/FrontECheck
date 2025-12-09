@@ -1,24 +1,32 @@
 @if (!isAuthPage()) {
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <h2 class="brand">E-Check</h2>
-        </div>
-        
-        <nav class="nav flex-column">
-            <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
-            <a class="nav-link" routerLink="/listarUsuario" routerLinkActive="active">Usuários</a>
-            <a class="nav-link" routerLink="/listarUnidade" routerLinkActive="active">Unidade</a>
-            <a class="nav-link" routerLink="/listarQuestionario" routerLinkActive="active">Questionários</a>
-            <a class="nav-link" routerLink="/listarReserva" routerLinkActive="active">Reservas</a>
-            <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboards</a>
-        </nav>
+<div class="sidebar">
+    <div class="sidebar-header">
+        <h2 class="brand">E-Check</h2>
     </div>
-
-    <div class="content">
-        <router-outlet></router-outlet>
-    </div>
-} @else {
-    <!-- Apenas o login aparece aqui
-     Correção para renderizar toda a tela de login cporretamente, sem que apareça as margens da nav-bar -->
-    <router-outlet></router-outlet>
+    
+    <nav class="nav flex-column">
+        <a class="nav-link" routerLink="/home" routerLinkActive="active">
+            Home
+        </a>
+        <a class="nav-link" routerLink="/listarUsuario" routerLinkActive="active">
+            Usuários
+        </a>
+        <a class="nav-link" routerLink="/listarUnidade" routerLinkActive="active">
+            Unidade
+        </a>
+        <a class="nav-link" routerLink="/listarQuestionario" routerLinkActive="active">
+            Questionários
+        </a>
+        <a class="nav-link" routerLink="/listarReserva" routerLinkActive="active">
+            Reservas
+        </a>
+        <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
+            Dashboards
+        </a>
+    </nav>
+</div>
 }
+
+<div class="content">
+    <router-outlet></router-outlet>
+</div>
