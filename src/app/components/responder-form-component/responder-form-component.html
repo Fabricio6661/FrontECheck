@@ -37,6 +37,8 @@
           <form (ngSubmit)="enviarRespostas()">
 
             <div *ngFor="let p of perguntas" class="mb-4 border rounded p-3">
+              <h5 class="fw-bold mb-1">{{ p.pergunta }}</h5> 
+              <p class="text-muted small mb-3">{{ p.descricao }}</p>
             <!-- ⭐ Estrelas Clicáveis -->
             <div *ngIf="p.tipo === 'ESTRELAS'" class="mt-2">
               

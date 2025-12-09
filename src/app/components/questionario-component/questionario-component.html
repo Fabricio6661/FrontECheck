@@ -92,7 +92,6 @@
                   name="tipo"
                   class="form-select"
                   [(ngModel)]="novaPergunta.tipo"
-                  (change)="onTipoChange()"
                   required
                   #tipo="ngModel"
                 >
@@ -104,66 +103,11 @@
 
             </div>
 
-            <!-- ✅ NOVO: Seções de opções para múltipla escolha -->
-            <div *ngIf="novaPergunta.tipo === 'MULTIPLA_ESCOLHA'" class="mt-4">
-              <h5 class="fw-semibold mb-3">
-                <i class="bi bi-list-check me-2"></i>
-                Opções da Pergunta (Múltipla Escolha)
-              </h5>
-              
-              <!-- Lista de opções temporárias -->
-              <div class="mb-3" *ngIf="opcoesTemporarias.length > 0">
-                <div class="list-group">
-                  <div 
-                    *ngFor="let opcao of opcoesTemporarias; let i = index" 
-                    class="list-group-item d-flex justify-content-between align-items-center"
-                  >
-                    <span>{{ i + 1 }}. {{ opcao }}</span>
-                    <button 
-                      type="button" 
-                      class="btn btn-sm btn-outline-danger"
-                      (click)="removerOpcaoTemporaria(i)"
-                    >
-                      <i class="bi bi-x-lg"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Adicionar nova opção -->
-              <div class="input-group mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Digite uma opção de resposta"
-                  [(ngModel)]="novaOpcao[0]"
-                  name="novaOpcaoTemporaria"
-                />
-                <button 
-                  class="btn btn-outline-primary" 
-                  type="button"
-                  (click)="adicionarOpcaoTemporaria()"
-                >
-                  <i class="bi bi-plus-lg"></i> Adicionar
-                </button>
-              </div>
-
-              <div class="alert alert-info" *ngIf="opcoesTemporarias.length === 0">
-                <i class="bi bi-info-circle me-2"></i>
-                Adicione pelo menos 2 opções para múltipla escolha.
-              </div>
-
-              <div class="alert alert-warning" *ngIf="opcoesTemporarias.length > 0 && opcoesTemporarias.length < 2">
-                <i class="bi bi-exclamation-triangle me-2"></i>
-                Múltipla escolha requer pelo menos 2 opções. Currently: {{ opcoesTemporarias.length }}
-              </div>
-            </div>
-
             <div class="text-center mt-4">
               <button
                 type="submit"
                 class="btn btn-primary px-4 fw-semibold"
-                [disabled]="!perguntaForm.valid || (novaPergunta.tipo === 'MULTIPLA_ESCOLHA' && opcoesTemporarias.length < 2)"
+                [disabled]="!perguntaForm.valid"
               >
                 + Adicionar Pergunta
               </button>
@@ -206,11 +150,7 @@
 
                   <li
                     *ngFor="let op of p.opcoesRespostas"
-                    class="list-group-item d-flex justify-content-between align-items-center"> 
-                    {{ op.opcao }} 
-                    <button class="btn btn-sm btn-outline-danger" (click)="removerOpcao(op.id, p.id)">
-                      ❌
-                    </button>
+                    class="list-group-item d-flex justify-content-between align-items-center"> {{ op.opcao }} <button class="btn btn-sm btn-outline-danger" (click)="removerOpcao(op.id, p.id)">❌</button>
                   </li>
 
                   <li
