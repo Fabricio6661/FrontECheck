@@ -4,12 +4,12 @@
             <div class="card bg-white shadow-lg border-0 rounded-4">
                 <div class="card-body p-4">
                     
-                    <h2 class="mb-4 text-dark">Formulários</h2>
+                    <h2 class="mb-4 text-dark">Lista de Questionários</h2>
 
                     <!-- Botão para criar novo questionário -->
                     <div class="mb-3">
                         <a routerLink="/questionario" class="btn btn-primary">
-                            <i class="bi bi-plus-circle"></i> Criar Novo Formulários
+                            <i class="bi bi-plus-circle"></i> Criar Novo Questionário
                         </a>
                     </div>
 
@@ -18,12 +18,12 @@
                         <div class="spinner-border" role="status">
                             <span class="visually-hidden">Carregando...</span>
                         </div>
-                        <p>Carregando Formulários...</p>
+                        <p>Carregando questionários...</p>
                     </div>
 
                     <!-- Mensagem quando não há questionários -->
                     <div *ngIf="!loading && questionarios.length === 0" class="text-center">
-                        <p class="text-muted">Nenhum Formulários encontrado.</p>
+                        <p class="text-muted">Nenhum questionário encontrado.</p>
                     </div>
 
                     <!-- Tabela de questionários -->

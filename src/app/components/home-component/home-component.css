@@ -13,7 +13,7 @@ html, body {
      Mantendo o código original para fins de referência: */
   position: absolute;
   top: 0;
-  left: 220px; /* largura do menu lateral */
+  left: 250px; /* largura do menu lateral */
   right: 0;
   bottom: 0;
   
