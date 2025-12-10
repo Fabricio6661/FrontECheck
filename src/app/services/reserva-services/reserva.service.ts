@@ -36,10 +36,14 @@ export class ReservaService {
   }
 
   deletar(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/apagar/${id}`);
+    return this.http.delete(`${this.apiUrl}/apagar/${id}`, { responseType: 'text' });
   }
 
   atualizar(reserva: Reserva): Observable<Reserva> {
     return this.http.put<Reserva>(`${this.apiUrl}/atualizar/${reserva.id}`, reserva);
+  }
+
+  enviarEmail(reservaId: number, email: string, link: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/enviar-email`, { reservaId, email, link });
   }
 }

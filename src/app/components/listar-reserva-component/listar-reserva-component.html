@@ -53,6 +53,7 @@
                     <button *ngIf="r.token" class="btn btn-sm btn-outline-success fw-bold" (click)="copiarLink(r.token)" title="Copiar Link">
                       <i class="bi bi-link-45deg fs-5"></i>
                     </button>
+
                     <span *ngIf="!r.token" class="badge bg-warning text-dark">Sem Token</span>
                   </td>
   
@@ -67,6 +68,10 @@
 
                     <button class="btn btn-sm btn-outline-danger" (click)="deletarReserva(r.id!)" title="Excluir">
                       <i class="bi bi-trash"></i>
+                    </button>
+
+                    <button *ngIf="r.token" class="btn btn-sm btn-outline-primary fw-bold" (click)="abrirModalEmail(r)" title="Enviar por E-mail">
+                      📧
                     </button>
                   </td>
                 </tr>
@@ -228,6 +233,53 @@
                 </button>
             </div>
         </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="modal fade" 
+     [class.show]="reservaParaEnvio" 
+     [style.display]="reservaParaEnvio ? 'block' : 'none'"
+     tabindex="-1" 
+     style="background-color: rgba(0,0,0,0.5);">
+  
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 shadow-lg">
+      
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title fw-bold">Enviar Pesquisa por E-mail</h5>
+        <button type="button" class="btn-close" (click)="fecharModalEmail()" [disabled]="enviandoEmail"></button>
+      </div>
+
+      <div class="modal-body px-4" *ngIf="reservaParaEnvio">
+        <p class="text-muted">
+            Você está prestes a enviar o link da pesquisa referente à reserva 
+            <strong>#{{ reservaParaEnvio.id }}</strong>.
+        </p>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Confirmar E-mail do Hóspede</label>
+            <input type="email" class="form-control" [(ngModel)]="emailParaEnvio" placeholder="exemplo@email.com">
+            <div class="form-text">
+                O link será enviado para este endereço.
+            </div>
+        </div>
+
+        <div class="alert alert-info py-2" style="font-size: 0.9rem;">
+            <i class="bi bi-info-circle me-1"></i> 
+            O link gerado é único e seguro.
+        </div>
+      </div>
+
+      <div class="modal-footer border-top-0">
+        <button type="button" class="btn btn-secondary" (click)="fecharModalEmail()" [disabled]="enviandoEmail">
+            Cancelar
+        </button>
+        <button type="button" class="btn btn-primary fw-bold px-4" (click)="confirmarEnvioEmail()" [disabled]="enviandoEmail || !emailParaEnvio">
+            <span *ngIf="enviandoEmail" class="spinner-border spinner-border-sm me-2"></span>
+            {{ enviandoEmail ? 'Enviando...' : 'Enviar E-mail' }}
+        </button>
       </div>
 
     </div>

@@ -13,6 +13,10 @@ import { FormsModule } from "@angular/forms";
   styleUrls: ['./listar-reserva-component.css']
 })
 export class ListarReservaComponent implements OnInit {
+  reservaParaEnvio: Reserva | null = null;
+  emailParaEnvio: string = '';
+  enviandoEmail: boolean = false;
+
   reservas: Reserva[] = [];
   unidades: Unidade[] = [];
   loading = false;
@@ -98,5 +102,37 @@ export class ListarReservaComponent implements OnInit {
 
   fecharModal() {
     this.reservaSelecionada = null;
+  }
+
+  abrirModalEmail(reserva: Reserva) {
+    this.reservaParaEnvio = reserva;
+    this.emailParaEnvio = reserva.email || ''; 
+  }
+
+  fecharModalEmail() {
+    this.reservaParaEnvio = null;
+    this.emailParaEnvio = '';
+    this.enviandoEmail = false;
+  }
+
+  confirmarEnvioEmail() {
+    if (!this.reservaParaEnvio || !this.reservaParaEnvio.id || !this.emailParaEnvio) {
+      alert('Dados inválidos para envio.');
+      return;
+    }
+    const linkCompleto = `http://localhost:4200/responderform/${this.reservaParaEnvio.token}`;
+    this.enviandoEmail = true;
+    this.reservaService.enviarEmail(this.reservaParaEnvio.id, this.emailParaEnvio, linkCompleto)
+      .subscribe({
+        next: () => {
+          alert(`E-mail enviado com sucesso para ${this.emailParaEnvio}!`);
+          this.fecharModalEmail();
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Erro ao enviar e-mail. Verifique se o Backend está configurado.');
+          this.enviandoEmail = false;
+        }
+      });
   }
 }
